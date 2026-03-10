@@ -18,57 +18,52 @@ const allArtists = (await getCollection('artists'))
   .sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
   .map((a) => ({ slug: a.slug, name: a.data.name }));
 
-const { name, nameEn, tag, photo, links } = artist.data;
+const { name, tag, photo, links } = artist.data;
 ---
 
 <BaseLayout title={`${name} — WILDFLOWER野花`} description={`${name} — ${tag}`}>
   <div class="min-h-screen pt-16 pb-20 px-4 md:px-8 lg:px-16">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-8 md:gap-12">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-8 md:gap-16">
 
-      <!-- Sidebar: other members -->
+      <!-- LEFT: sidebar -->
       <aside class="md:w-48 lg:w-56 flex-shrink-0 md:sticky md:top-16 md:self-start md:max-h-[calc(100vh-5rem)] md:overflow-y-auto">
         <ArtistSidebar artists={allArtists} currentSlug={artist.slug} />
       </aside>
 
-      <!-- Main content -->
+      <!-- RIGHT: profile -->
       <div class="flex-1 min-w-0">
-        <!-- Profile header -->
         <div class="flex items-start gap-6 mb-8">
-          <div class="w-24 h-24 md:w-32 md:h-32 flex-shrink-0 bg-wf-gray border border-wf-mid/20 flex items-center justify-center overflow-hidden">
+          <div class="w-24 h-24 md:w-32 md:h-32 flex-shrink-0 bg-wf-gray flex items-center justify-center overflow-hidden">
             {photo ? (
               <img src={photo} alt={name} class="w-full h-full object-cover" />
             ) : (
-              <span class="text-wf-mid text-sm font-mono">—</span>
+              <span class="text-wf-mid text-sm font-display">—</span>
             )}
           </div>
 
           <div>
-            <h1 class="font-display text-xl md:text-2xl font-medium text-wf-white">{name}</h1>
-            {nameEn && (
-              <p class="font-mono text-[10px] tracking-[0.2em] text-wf-light/40 mt-1 uppercase">{nameEn}</p>
-            )}
-            <p class="font-mono text-xs text-wf-light/50 mt-2 tracking-wider">{tag}</p>
+            <h1 class="font-display text-xl md:text-2xl font-bold text-wf-white">{name}</h1>
+            <p class="font-display text-xs text-wf-light/50 mt-2 tracking-wider">{tag}</p>
 
-            <!-- Links -->
             <div class="flex gap-4 mt-4">
               {links.instagram && (
-                <a href={links.instagram} target="_blank" rel="noopener" class="font-mono text-[10px] tracking-[0.15em] text-wf-light/40 hover:text-wf-white transition-colors duration-300 uppercase" data-clickable>
-                  Instagram
+                <a href={links.instagram} target="_blank" rel="noopener" class="font-display text-xs tracking-wider text-wf-light/40 hover:text-wf-white transition-colors duration-300" data-clickable>
+                  IG
                 </a>
               )}
               {links.spotify && (
-                <a href={links.spotify} target="_blank" rel="noopener" class="font-mono text-[10px] tracking-[0.15em] text-wf-light/40 hover:text-wf-white transition-colors duration-300 uppercase" data-clickable>
+                <a href={links.spotify} target="_blank" rel="noopener" class="font-display text-xs tracking-wider text-wf-light/40 hover:text-wf-white transition-colors duration-300" data-clickable>
                   Spotify
                 </a>
               )}
               {links.appleMusic && (
-                <a href={links.appleMusic} target="_blank" rel="noopener" class="font-mono text-[10px] tracking-[0.15em] text-wf-light/40 hover:text-wf-white transition-colors duration-300 uppercase" data-clickable>
+                <a href={links.appleMusic} target="_blank" rel="noopener" class="font-display text-xs tracking-wider text-wf-light/40 hover:text-wf-white transition-colors duration-300" data-clickable>
                   Apple Music
                 </a>
               )}
               {links.website && (
-                <a href={links.website} target="_blank" rel="noopener" class="font-mono text-[10px] tracking-[0.15em] text-wf-light/40 hover:text-wf-white transition-colors duration-300 uppercase" data-clickable>
-                  Website
+                <a href={links.website} target="_blank" rel="noopener" class="font-display text-xs tracking-wider text-wf-light/40 hover:text-wf-white transition-colors duration-300" data-clickable>
+                  網站
                 </a>
               )}
             </div>
@@ -76,8 +71,8 @@ const { name, nameEn, tag, photo, links } = artist.data;
         </div>
 
         <!-- Bio -->
-        <div class="border-t border-wf-mid/20 pt-6">
-          <div class="prose prose-invert prose-sm max-w-none font-mono text-wf-light/60 leading-relaxed text-sm">
+        <div class="pt-6">
+          <div class="prose prose-invert prose-sm max-w-none font-display text-wf-light/60 leading-relaxed text-sm">
             <Content />
           </div>
         </div>
