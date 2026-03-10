@@ -1,0 +1,49 @@
+<!-- Custom Cursor: minimalist dot + ring -->
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    if (!dot || !ring) return;
+
+    let mouseX = 0, mouseY = 0;
+    let ringX = 0, ringY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.transform = `translate(${mouseX - 3}px, ${mouseY - 3}px)`;
+    });
+
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      ring.style.transform = `translate(${ringX - 16}px, ${ringY - 16}px)`;
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    // Expand on hover over clickable elements
+    const hoverTargets = 'a, button, [data-clickable], .mrt-station-clickable';
+    document.addEventListener('mouseover', (e) => {
+      const target = (e.target as Element).closest(hoverTargets);
+      if (target) ring.classList.add('hovering');
+    });
+    document.addEventListener('mouseout', (e) => {
+      const target = (e.target as Element).closest(hoverTargets);
+      if (target) ring.classList.remove('hovering');
+    });
+
+    // Hide on mouse leave
+    document.addEventListener('mouseleave', () => {
+      dot.style.opacity = '0';
+      ring.style.opacity = '0';
+    });
+    document.addEventListener('mouseenter', () => {
+      dot.style.opacity = '1';
+      ring.style.opacity = '1';
+    });
+  });
+</script>

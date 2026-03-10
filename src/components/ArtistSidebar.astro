@@ -1,0 +1,37 @@
+---
+interface ArtistLink {
+  slug: string;
+  name: string;
+}
+
+interface Props {
+  artists: ArtistLink[];
+  currentSlug: string;
+}
+
+const { artists, currentSlug } = Astro.props;
+---
+
+<nav class="space-y-1">
+  <a
+    href="/artists"
+    class="block font-mono text-[10px] tracking-[0.3em] text-wf-light/30 hover:text-wf-light/60 transition-colors duration-300 mb-4 uppercase"
+    data-clickable
+  >
+    ← 全部成員
+  </a>
+  {artists.map((artist) => (
+    <a
+      href={`/artists/${artist.slug}`}
+      class:list={[
+        'block py-2 px-3 font-display text-sm transition-all duration-300 border-l',
+        artist.slug === currentSlug
+          ? 'border-wf-white text-wf-white bg-wf-gray/20'
+          : 'border-transparent text-wf-light/40 hover:text-wf-light/70 hover:border-wf-mid',
+      ]}
+      data-clickable
+    >
+      {artist.name}
+    </a>
+  ))}
+</nav>

@@ -1,0 +1,294 @@
+---
+// MRT Map — Taipei Metro × Mini Metro
+// Single full map for all screens. Desktop: fixed view. Mobile: pannable.
+// Clickable stations spread across different routes for visual balance.
+// Passengers = tiny WF logo marks.
+---
+
+<canvas id="rain-canvas" class="fixed inset-0 pointer-events-none z-[1]"></canvas>
+
+<!-- Single map container — desktop fixed, mobile pannable -->
+<div class="w-full h-screen relative z-[2] overflow-hidden" id="mrt-container">
+  <div id="mrt-pan-wrapper" class="w-full h-full flex items-center justify-center md:pointer-events-none">
+    <svg
+      id="mrt-svg"
+      viewBox="0 0 1400 900"
+      class="w-[280%] md:w-full max-w-[1400px] h-auto select-none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <defs>
+        <g id="wf">
+          <circle cx="0" cy="0" r="3.2" fill="none" stroke="currentColor" stroke-width="0.5" />
+          <path d="M -1.5,-1.5 L 1.5,1.5 M 1.5,-1.5 L -1.5,1.5 M 0,-2 L 0,2" stroke="currentColor" stroke-width="0.35" />
+        </g>
+      </defs>
+
+      <!-- ═══ ROUTE A (vertical left) ═══ -->
+      <path d="M 200,60 L 200,200 L 250,280 L 250,480 L 300,560 L 300,840"
+        fill="none" stroke="#f0f0f0" stroke-width="3" opacity="0.06" stroke-linecap="round" stroke-linejoin="round" />
+      <circle cx="200" cy="60" r="4" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1" opacity="0.08" />
+      <circle cx="200" cy="200" r="4" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1" opacity="0.08" />
+      <circle cx="250" cy="380" r="4" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1" opacity="0.08" />
+      <circle cx="300" cy="700" r="4" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1" opacity="0.08" />
+      <circle cx="300" cy="840" r="4" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1" opacity="0.08" />
+      <use href="#wf" x="195" y="190" color="rgba(240,240,240,0.05)" />
+      <use href="#wf" x="255" y="470" color="rgba(240,240,240,0.04)" />
+
+      <!-- ═══ ROUTE B (horizontal mid) — 商店 is on this line ═══ -->
+      <path d="M 60,430 L 200,430 L 280,380 L 450,380 L 560,430 L 700,430 L 800,480 L 950,480 L 1050,430 L 1200,430 L 1350,480"
+        fill="none" stroke="#f0f0f0" stroke-width="3.5" opacity="0.09" stroke-linecap="round" stroke-linejoin="round" />
+      <circle cx="60" cy="430" r="4" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1" opacity="0.10" />
+      <circle cx="200" cy="430" r="4" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1" opacity="0.10" />
+      <circle cx="700" cy="430" r="4" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1" opacity="0.10" />
+      <circle cx="950" cy="480" r="4" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1" opacity="0.10" />
+      <circle cx="1200" cy="430" r="4" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1" opacity="0.10" />
+      <circle cx="1350" cy="480" r="4" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1" opacity="0.10" />
+      <use href="#wf" x="65" y="422" color="rgba(240,240,240,0.06)" />
+      <use href="#wf" x="705" y="422" color="rgba(240,240,240,0.05)" />
+
+      <!-- ★ 商店 — on Route B -->
+      <g class="mrt-station-clickable" data-clickable>
+        <a href="https://shop.wild-flower.co" target="_blank" rel="noopener">
+          <rect x="441" y="371" width="18" height="18" rx="2" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1.8" opacity="0.5" />
+          <circle cx="450" cy="380" r="3" fill="#f0f0f0" opacity="0.45" />
+          <text x="450" y="412" text-anchor="middle" class="station-label" fill="#f0f0f0" font-family="'Noto Sans TC', sans-serif" font-size="14" font-weight="900" letter-spacing="0.12em" opacity="0.6">商店</text>
+        </a>
+        <use href="#wf" x="430" y="365" color="rgba(240,240,240,0.15)" class="passenger" />
+        <use href="#wf" x="468" y="368" color="rgba(240,240,240,0.12)" class="passenger" />
+        <use href="#wf" x="435" y="395" color="rgba(240,240,240,0.09)" class="passenger" />
+      </g>
+
+      <!-- ═══ ROUTE C (curved upper) ═══ -->
+      <path d="M 150,250 Q 400,100 650,200 Q 850,280 1050,170 Q 1200,100 1350,180"
+        fill="none" stroke="#f0f0f0" stroke-width="2.5" opacity="0.05" stroke-linecap="round" />
+      <circle cx="150" cy="250" r="3.5" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="0.8" opacity="0.06" />
+      <circle cx="430" cy="148" r="3.5" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="0.8" opacity="0.06" />
+      <circle cx="1050" cy="170" r="3.5" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="0.8" opacity="0.06" />
+      <circle cx="1350" cy="180" r="3.5" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="0.8" opacity="0.06" />
+
+      <!-- ★ 追蹤 — on Route C (upper right area) -->
+      <g class="mrt-station-clickable" data-clickable>
+        <a href="https://instagram.com/wildflower" target="_blank" rel="noopener">
+          <rect x="641" y="191" width="18" height="18" rx="2" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1.8" opacity="0.5" />
+          <circle cx="650" cy="200" r="3" fill="#f0f0f0" opacity="0.45" />
+          <text x="650" y="232" text-anchor="middle" class="station-label" fill="#f0f0f0" font-family="'Noto Sans TC', sans-serif" font-size="14" font-weight="900" letter-spacing="0.12em" opacity="0.6">追蹤</text>
+        </a>
+        <use href="#wf" x="632" y="185" color="rgba(240,240,240,0.12)" class="passenger" />
+        <use href="#wf" x="668" y="188" color="rgba(240,240,240,0.09)" class="passenger" />
+      </g>
+
+      <!-- ═══ ROUTE D (right vertical) ═══ -->
+      <path d="M 1000,80 L 1000,250 L 1060,320 L 1060,530 L 1120,600 L 1120,820"
+        fill="none" stroke="#f0f0f0" stroke-width="2.5" opacity="0.05" stroke-linecap="round" stroke-linejoin="round" />
+      <circle cx="1000" cy="80" r="3" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="0.8" opacity="0.06" />
+      <circle cx="1000" cy="250" r="3" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="0.8" opacity="0.06" />
+      <circle cx="1060" cy="420" r="3" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="0.8" opacity="0.06" />
+      <circle cx="1120" cy="700" r="3" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="0.8" opacity="0.06" />
+      <circle cx="1120" cy="820" r="3" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="0.8" opacity="0.06" />
+
+      <!-- ═══ ROUTE E (diagonal bottom-left → upper-right) ═══ -->
+      <path d="M 100,780 L 250,680 L 420,620 L 560,430 L 700,340 L 900,280 L 1100,320 L 1280,250"
+        fill="none" stroke="#f0f0f0" stroke-width="2" opacity="0.04" stroke-linecap="round" stroke-linejoin="round" />
+      <circle cx="100" cy="780" r="3" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="0.6" opacity="0.05" />
+      <circle cx="420" cy="620" r="3" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="0.6" opacity="0.05" />
+      <circle cx="1280" cy="250" r="3" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="0.6" opacity="0.05" />
+
+      <!-- ★ 專案 — on Route E (lower-right area) -->
+      <g class="mrt-station-clickable" data-clickable>
+        <a href="/projects">
+          <rect x="891" y="271" width="18" height="18" rx="2" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1.8" opacity="0.5" />
+          <circle cx="900" cy="280" r="3" fill="#f0f0f0" opacity="0.45" />
+          <text x="900" y="312" text-anchor="middle" class="station-label" fill="#f0f0f0" font-family="'Noto Sans TC', sans-serif" font-size="14" font-weight="900" letter-spacing="0.12em" opacity="0.6">專案</text>
+        </a>
+        <use href="#wf" x="878" y="265" color="rgba(240,240,240,0.14)" class="passenger" />
+        <use href="#wf" x="918" y="268" color="rgba(240,240,240,0.11)" class="passenger" />
+        <use href="#wf" x="885" y="295" color="rgba(240,240,240,0.08)" class="passenger" />
+      </g>
+
+      <!-- ═══ MAIN LINE (白線 — WILDFLOWER Line) — 成員 is the hub ═══ -->
+      <path d="M 120,330 L 280,330 L 350,280 L 500,280 L 560,330 L 560,430 L 630,500 L 800,500 L 880,430 L 1060,430 L 1160,370 L 1320,370"
+        fill="none" stroke="#f0f0f0" stroke-width="9" opacity="0.03" stroke-linecap="round" stroke-linejoin="round" />
+      <path id="mrt-track"
+        d="M 120,330 L 280,330 L 350,280 L 500,280 L 560,330 L 560,430 L 630,500 L 800,500 L 880,430 L 1060,430 L 1160,370 L 1320,370"
+        fill="none" stroke="#f0f0f0" stroke-width="4" opacity="0.22" stroke-linecap="round" stroke-linejoin="round" />
+
+      <!-- Main line filler stations -->
+      <circle cx="120" cy="330" r="5.5" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1.5" opacity="0.18" />
+      <circle cx="350" cy="280" r="5" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1.2" opacity="0.15" />
+      <circle cx="630" cy="500" r="5" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1.2" opacity="0.15" />
+      <circle cx="880" cy="430" r="5" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1.2" opacity="0.15" />
+      <circle cx="1160" cy="370" r="5" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1.2" opacity="0.15" />
+      <circle cx="1320" cy="370" r="5.5" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="1.5" opacity="0.18" />
+      <use href="#wf" x="110" y="318" color="rgba(240,240,240,0.08)" />
+      <use href="#wf" x="640" y="490" color="rgba(240,240,240,0.06)" />
+      <use href="#wf" x="1170" y="358" color="rgba(240,240,240,0.05)" />
+
+      <!-- ★ 成員 — MAIN LINE hub (center of map, where routes cross) -->
+      <g class="mrt-station-clickable" data-clickable>
+        <a href="/artists">
+          <rect x="549" y="419" width="22" height="22" rx="3" fill="#0a0a0a" stroke="#f0f0f0" stroke-width="2.2" opacity="0.55" />
+          <circle cx="560" cy="430" r="4.5" fill="#f0f0f0" opacity="0.5" />
+          <!-- Transfer lines -->
+          <line x1="536" y1="430" x2="546" y2="430" stroke="#f0f0f0" stroke-width="1" opacity="0.2" />
+          <line x1="574" y1="430" x2="584" y2="430" stroke="#f0f0f0" stroke-width="1" opacity="0.2" />
+          <text x="560" y="470" text-anchor="middle" class="station-label" fill="#f0f0f0" font-family="'Noto Sans TC', sans-serif" font-size="16" font-weight="900" letter-spacing="0.12em" opacity="0.7">成員</text>
+        </a>
+        <use href="#wf" x="532" y="412" color="rgba(240,240,240,0.18)" class="passenger" />
+        <use href="#wf" x="540" y="405" color="rgba(240,240,240,0.14)" class="passenger" />
+        <use href="#wf" x="580" y="415" color="rgba(240,240,240,0.16)" class="passenger" />
+        <use href="#wf" x="585" y="445" color="rgba(240,240,240,0.10)" class="passenger" />
+        <use href="#wf" x="535" y="448" color="rgba(240,240,240,0.08)" class="passenger" />
+        <use href="#wf" x="570" y="450" color="rgba(240,240,240,0.07)" class="passenger" />
+      </g>
+
+      <!-- Ambient WF logo passengers -->
+      <use href="#wf" x="420" y="350" color="rgba(240,240,240,0.04)" />
+      <use href="#wf" x="750" y="460" color="rgba(240,240,240,0.03)" />
+      <use href="#wf" x="350" y="450" color="rgba(240,240,240,0.04)" />
+      <use href="#wf" x="850" y="350" color="rgba(240,240,240,0.03)" />
+      <use href="#wf" x="500" y="520" color="rgba(240,240,240,0.03)" />
+      <use href="#wf" x="1100" y="500" color="rgba(240,240,240,0.03)" />
+      <use href="#wf" x="300" y="600" color="rgba(240,240,240,0.03)" />
+      <use href="#wf" x="800" y="300" color="rgba(240,240,240,0.02)" />
+
+      <!-- ═══ TRAIN ═══ -->
+      <g id="mrt-train">
+        <rect x="-18" y="-6" width="36" height="12" rx="6" fill="#f0f0f0" opacity="0.6" />
+        <use href="#wf" x="-6" y="0" color="rgba(10,10,10,0.5)" transform="scale(0.55)" style="transform-origin: -6px 0" />
+        <use href="#wf" x="6" y="0" color="rgba(10,10,10,0.4)" transform="scale(0.55)" style="transform-origin: 6px 0" />
+      </g>
+    </svg>
+  </div>
+</div>
+
+<script>
+  import gsap from 'gsap';
+  import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+  gsap.registerPlugin(MotionPathPlugin);
+
+  document.addEventListener('astro:page-load', () => {
+    // ── Rain ──
+    const canvas = document.getElementById('rain-canvas') as HTMLCanvasElement;
+    if (canvas) {
+      const ctx = canvas.getContext('2d')!;
+      let aId: number;
+      function rs() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      rs(); window.addEventListener('resize', rs);
+      interface D { x: number; y: number; s: number; l: number; o: number; }
+      const dr: D[] = [];
+      for (let i = 0; i < Math.floor(window.innerWidth / 10); i++)
+        dr.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, s: 1 + Math.random() * 2, l: 6 + Math.random() * 12, o: 0.02 + Math.random() * 0.04 });
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        dr.forEach(d => { ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x + 0.3, d.y + d.l); ctx.strokeStyle = `rgba(240,240,240,${d.o})`; ctx.lineWidth = 0.5; ctx.stroke(); d.y += d.s; if (d.y > canvas.height) { d.y = -d.l; d.x = Math.random() * canvas.width; } });
+        aId = requestAnimationFrame(draw);
+      }
+      draw();
+      document.addEventListener('astro:before-swap', () => cancelAnimationFrame(aId), { once: true });
+    }
+
+    // ── Mobile pan (touch drag) ──
+    const isMobile = window.innerWidth < 768;
+    const wrapper = document.getElementById('mrt-pan-wrapper');
+    const svg = document.getElementById('mrt-svg');
+
+    if (isMobile && wrapper && svg) {
+      wrapper.style.pointerEvents = 'auto';
+      wrapper.style.touchAction = 'none';
+      wrapper.style.display = 'block';
+      wrapper.style.position = 'relative';
+
+      let panX = -(svg.clientWidth - window.innerWidth) / 2; // center initially
+      let panY = -(svg.clientHeight - window.innerHeight) / 2;
+      let startX = 0, startY = 0, startPanX = 0, startPanY = 0;
+
+      function clamp() {
+        const maxX = 0;
+        const minX = -(svg.clientWidth - window.innerWidth);
+        const maxY = 0;
+        const minY = -(svg.clientHeight - window.innerHeight);
+        panX = Math.max(minX, Math.min(maxX, panX));
+        panY = Math.max(minY, Math.min(maxY, panY));
+      }
+
+      function apply() {
+        svg.style.transform = `translate(${panX}px, ${panY}px)`;
+      }
+
+      clamp(); apply();
+
+      wrapper.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        startX = t.clientX; startY = t.clientY;
+        startPanX = panX; startPanY = panY;
+      }, { passive: true });
+
+      wrapper.addEventListener('touchmove', (e) => {
+        const t = e.touches[0];
+        panX = startPanX + (t.clientX - startX);
+        panY = startPanY + (t.clientY - startY);
+        clamp(); apply();
+      }, { passive: true });
+    }
+
+    // ── Passenger idle ──
+    document.querySelectorAll('.passenger').forEach((p, i) => {
+      gsap.to(p, { y: `+=${1 + Math.random() * 2}`, x: `+=${(Math.random() - 0.5) * 2}`, duration: 2 + Math.random() * 2, delay: i * 0.15, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    });
+
+    // ── Train ──
+    const train = document.getElementById('mrt-train');
+    if (!train || !document.querySelector('#mrt-track')) return;
+
+    const stations = [0, 0.12, 0.26, 0.42, 0.56, 0.70, 0.82, 0.92, 1.0];
+    let cur = 0;
+
+    function go() {
+      const next = (cur + 1) % stations.length;
+      if (next === 0) {
+        gsap.to(train, { duration: 0.6, opacity: 0, onComplete: () => {
+          gsap.set(train, { motionPath: { path: '#mrt-track', align: '#mrt-track', alignOrigin: [0.5, 0.5], autoRotate: true, start: 0, end: 0 } });
+          gsap.to(train, { duration: 0.4, opacity: 0.6, onComplete: () => { cur = 0; setTimeout(go, 2000 + Math.random() * 1500); } });
+        }});
+        return;
+      }
+      const dist = Math.abs(stations[next] - stations[cur]);
+      gsap.to(train, {
+        duration: dist * 8,
+        motionPath: { path: '#mrt-track', align: '#mrt-track', alignOrigin: [0.5, 0.5], autoRotate: true, start: stations[cur], end: stations[next] },
+        ease: 'power2.inOut',
+        onComplete: () => {
+          cur = next;
+          gsap.fromTo(train, { x: '+=2' }, { x: '-=2', duration: 0.25, ease: 'elastic.out(1.2, 0.4)', onComplete: () => {
+            if ((window as any).playBlip) (window as any).playBlip();
+            // Board passengers at station 4 (成員 hub, index 4 in stations array)
+            if (next === 4) board();
+            setTimeout(go, [4].includes(next) ? 3000 + Math.random() * 1500 : 1000 + Math.random() * 800);
+          }});
+        },
+      });
+    }
+
+    function board() {
+      const hub = document.querySelector('#mrt-svg .mrt-station-clickable:nth-child(3) .passenger') ?
+        document.querySelectorAll('#mrt-svg .mrt-station-clickable')[1] : null; // 成員 is 2nd clickable group
+      if (!hub) return;
+      hub.querySelectorAll('.passenger').forEach((p, i) => {
+        const el = p as SVGElement;
+        const origColor = el.getAttribute('color') || '';
+        gsap.timeline({ delay: i * 0.12 })
+          .to(el, { x: '+=10', opacity: 0, duration: 0.5, ease: 'power1.in' })
+          .to(el, { x: '-=10', opacity: 1, duration: 0.6, delay: 1.8, ease: 'power1.out' });
+      });
+    }
+
+    gsap.set(train, { motionPath: { path: '#mrt-track', align: '#mrt-track', alignOrigin: [0.5, 0.5], autoRotate: true, start: 0, end: 0 } });
+    setTimeout(go, 1500);
+
+    // Hover sounds
+    document.querySelectorAll('.mrt-station-clickable').forEach(s => {
+      s.addEventListener('mouseenter', () => { if ((window as any).playBlip) (window as any).playBlip(); });
+    });
+  });
+</script>

@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base ── */
+* {
+  cursor: none !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(240, 240, 240, 0.15);
+  color: #f0f0f0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #0a0a0a;
+}
+
+body {
+  font-family: 'Inter', 'Noto Sans TC', 'Helvetica Neue', sans-serif;
+  background: #0a0a0a;
+  color: #f0f0f0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Custom Cursor ── */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  background: #f0f0f0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  mix-blend-mode: difference;
+}
+
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(240, 240, 240, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.2s ease;
+  mix-blend-mode: difference;
+}
+
+.cursor-ring.hovering {
+  width: 48px;
+  height: 48px;
+  border-color: rgba(240, 240, 240, 0.6);
+}
+
+/* ── Link Hover — heavy/delayed feel ── */
+a, button, [data-clickable] {
+  transition: filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+a:hover, button:hover, [data-clickable]:hover {
+  filter: blur(0.3px) brightness(1.15);
+  opacity: 0.85;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
+}
+
+/* ── Loading Screen ── */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a0a;
+}
+
+.loading-counter {
+  font-family: 'Inter', 'Noto Sans TC', sans-serif;
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #f0f0f0;
+}
+
+.enter-link {
+  font-family: 'Noto Sans TC', 'Inter', sans-serif;
+  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: #f0f0f0;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.8s ease, filter 0.4s ease;
+}
+
+.enter-link:hover {
+  filter: blur(0.3px) brightness(1.2) !important;
+  opacity: 0.8 !important;
+}
+
+/* ── Page Transitions ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+::view-transition-old(root) {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+::view-transition-new(root) {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+/* ── MRT Mini Metro ── */
+.mrt-station-clickable {
+  transition: opacity 0.3s ease;
+}
+
+.mrt-station-clickable:hover .station-label {
+  opacity: 1 !important;
+}
+
+.station-label {
+  transition: opacity 0.3s ease;
+}
+
+/* ── Project Grid ── */
+.project-card {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.project-card .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 1rem;
+}
+
+.project-card:hover .overlay {
+  opacity: 1;
+}
+
+.project-card .countdown-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

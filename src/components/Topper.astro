@@ -1,0 +1,25 @@
+---
+// Topper: 野花 — fixed top-left, heavy industrial
+---
+<div id="topper" class="fixed top-0 left-0 z-[9999] p-4 md:p-6">
+  <a href="/" class="block" data-clickable>
+    <span class="text-base md:text-lg text-wf-white" style="font-family: 'Noto Sans TC', sans-serif; font-weight: 900; letter-spacing: 0.08em;">野花</span>
+  </a>
+</div>
+
+<!-- Live clock — top-right, Mini Metro style -->
+<div id="mrt-clock" class="fixed top-0 right-0 z-[9999] p-4 md:p-6 font-mono text-xs md:text-sm tracking-[0.2em] text-wf-white/60"></div>
+
+<script>
+  function updateClock() {
+    const el = document.getElementById('mrt-clock');
+    if (!el) return;
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    el.textContent = `${h}:${m} ${days[now.getDay()]}`;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>

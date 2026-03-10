@@ -1,0 +1,39 @@
+---
+// ProjectGrid: wraps project cards in a responsive grid
+---
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[1px] bg-wf-mid/10">
+  <slot />
+</div>
+
+<script>
+  // Countdown timer logic
+  document.addEventListener('astro:page-load', () => {
+    const timers = document.querySelectorAll('.countdown-timer');
+
+    function updateCountdowns() {
+      timers.forEach(timer => {
+        const dateStr = timer.getAttribute('data-date');
+        if (!dateStr) return;
+
+        const target = new Date(dateStr).getTime();
+        const now = Date.now();
+        const diff = target - now;
+
+        if (diff <= 0) {
+          timer.textContent = 'NOW';
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+        timer.textContent = `${days}D ${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      });
+    }
+
+    updateCountdowns();
+    setInterval(updateCountdowns, 1000);
+  });
+</script>

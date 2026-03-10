@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArtistCard from '../../components/ArtistCard.astro';
+import { getCollection } from 'astro:content';
+
+const artists = (await getCollection('artists')).sort(
+  (a, b) => (a.data.order || 0) - (b.data.order || 0)
+);
+---
+
+<BaseLayout title="成員 — WILDFLOWER野花" description="WILDFLOWER野花 label members">
+  <div class="min-h-screen pt-16 pb-20 px-4 md:px-8 lg:px-16 max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8 md:mb-12">
+      <h1 class="font-display text-lg md:text-xl font-medium text-wf-white mb-1">成員</h1>
+      <p class="font-mono text-[10px] tracking-[0.3em] text-wf-light/30 uppercase">Artists</p>
+    </div>
+
+    <!-- Artist list -->
+    <div class="space-y-[1px]">
+      {artists.map((artist) => (
+        <ArtistCard
+          slug={artist.slug}
+          name={artist.data.name}
+          nameEn={artist.data.nameEn}
+          tag={artist.data.tag}
+          photo={artist.data.photo}
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

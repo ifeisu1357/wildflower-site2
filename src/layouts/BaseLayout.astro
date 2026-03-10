@@ -1,0 +1,70 @@
+---
+import CustomCursor from '../components/CustomCursor.astro';
+import Topper from '../components/Topper.astro';
+import Footer from '../components/Footer.astro';
+import AudioManager from '../components/AudioManager.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title = 'WILDFLOWER野花',
+  description = 'WILDFLOWER野花 — Music · Visual · Art',
+  ogImage = '/images/logo.png',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="generator" content={Astro.generator} />
+
+  <!-- SEO -->
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+  <meta property="og:site_name" content="WILDFLOWER野花" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/logo.png" />
+
+  <!-- Fonts preload -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- View Transitions -->
+  <meta name="view-transition" content="same-origin" />
+</head>
+<body class="bg-wf-black text-wf-white min-h-screen">
+  <CustomCursor />
+  <Topper />
+  <AudioManager />
+
+  <main class="relative">
+    <slot />
+  </main>
+
+  <Footer />
+</body>
+</html>

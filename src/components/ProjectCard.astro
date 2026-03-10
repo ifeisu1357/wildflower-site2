@@ -1,0 +1,46 @@
+---
+interface Props {
+  title: string;
+  artist: string;
+  cover: string;
+  type: string;
+  year: number;
+  releaseDate?: string;
+  published: boolean;
+}
+
+const { title, artist, cover, type, year, releaseDate, published } = Astro.props;
+
+// Check if project has a future release date
+const isUpcoming = releaseDate ? new Date(releaseDate) > new Date() : false;
+const showCountdown = !published || isUpcoming;
+---
+
+<div class="project-card bg-wf-gray" data-release-date={releaseDate || ''} data-published={String(published)}>
+  <img
+    src={cover || ''}
+    alt={published ? title : ''}
+    class:list={[
+      'w-full h-full object-cover',
+      showCountdown ? 'opacity-30 blur-[2px]' : 'opacity-100',
+    ]}
+    loading="lazy"
+  />
+
+  {showCountdown ? (
+    <div class="countdown-overlay">
+      <div class="text-center">
+        <div class="font-mono text-xs tracking-[0.3em] text-wf-light/40 mb-1">COMING SOON</div>
+        {releaseDate && (
+          <div class="countdown-timer font-mono text-sm tracking-wider text-wf-white/70" data-date={releaseDate}></div>
+        )}
+      </div>
+    </div>
+  ) : (
+    <div class="overlay text-center">
+      <h3 class="font-display text-base md:text-lg font-medium text-wf-white mb-1">{title}</h3>
+      <p class="font-mono text-[10px] tracking-[0.2em] text-wf-light/50">{artist}</p>
+      <p class="font-mono text-[10px] tracking-[0.15em] text-wf-light/30 mt-2">{type} · {year}</p>
+    </div>
+  )}
+</div>

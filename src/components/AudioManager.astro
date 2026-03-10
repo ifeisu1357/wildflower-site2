@@ -1,0 +1,58 @@
+<!-- Audio Manager: background loop + UI sounds -->
+<audio id="bg-audio" loop preload="auto">
+  <source src="/audio/background.mp3" type="audio/mpeg" />
+</audio>
+<audio id="sfx-click" preload="auto">
+  <source src="/sounds/click.mp3" type="audio/mpeg" />
+</audio>
+<audio id="sfx-blip" preload="auto">
+  <source src="/sounds/blip.mp3" type="audio/mpeg" />
+</audio>
+
+<script>
+  // Audio state persists across page navigations
+  (window as any).__wfAudioStarted = (window as any).__wfAudioStarted || false;
+
+  document.addEventListener('astro:page-load', () => {
+    const bgAudio = document.getElementById('bg-audio') as HTMLAudioElement;
+    const sfxClick = document.getElementById('sfx-click') as HTMLAudioElement;
+    const sfxBlip = document.getElementById('sfx-blip') as HTMLAudioElement;
+
+    if (bgAudio) {
+      bgAudio.volume = 0.15;
+    }
+    if (sfxClick) sfxClick.volume = 0.08;
+    if (sfxBlip) sfxBlip.volume = 0.06;
+
+    // Start bg audio after enter click
+    window.addEventListener('wf:enter', () => {
+      if (bgAudio && !(window as any).__wfAudioStarted) {
+        bgAudio.play().catch(() => {});
+        (window as any).__wfAudioStarted = true;
+      }
+    });
+
+    // Resume if already started (after page transition)
+    if ((window as any).__wfAudioStarted && bgAudio && bgAudio.paused) {
+      bgAudio.play().catch(() => {});
+    }
+
+    // Play click/blip on navigation
+    document.querySelectorAll('a[href]').forEach(link => {
+      link.addEventListener('click', () => {
+        if (sfxClick) {
+          sfxClick.currentTime = 0;
+          sfxClick.play().catch(() => {});
+        }
+      });
+    });
+
+    // Expose blip for MRT interactions
+    (window as any).playBlip = () => {
+      if (sfxBlip) {
+        sfxBlip.currentTime = 0;
+        sfxBlip.play().catch(() => {});
+      }
+    };
+  });
+</script>

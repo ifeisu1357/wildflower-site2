@@ -1,0 +1,37 @@
+---
+// YouTubeEmbed: minimalist auto-playing (muted) embed
+// Usage: <YouTubeEmbed videoId="dQw4w9WgXcQ" />
+// Or:    <YouTubeEmbed url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+interface Props {
+  videoId?: string;
+  url?: string;
+  title?: string;
+}
+
+const { videoId: rawId, url, title = '' } = Astro.props;
+
+// Extract video ID from URL if provided
+let videoId = rawId;
+if (!videoId && url) {
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+  videoId = match ? match[1] : '';
+}
+---
+
+{videoId && (
+  <div class="relative w-full border border-wf-mid/20 bg-wf-black overflow-hidden group">
+    <div class="aspect-video">
+      <iframe
+        src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&color=white`}
+        title={title}
+        allow="autoplay; encrypted-media"
+        allowfullscreen
+        loading="lazy"
+        class="absolute inset-0 w-full h-full"
+        style="border: 0;"
+      ></iframe>
+    </div>
+    <!-- Subtle border glow on hover -->
+    <div class="absolute inset-0 border border-wf-light/0 group-hover:border-wf-light/10 transition-all duration-700 pointer-events-none"></div>
+  </div>
+)}
