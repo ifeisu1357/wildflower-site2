@@ -13,8 +13,10 @@ const projects = (await getCollection('projects')).sort(
   <div class="min-h-screen pt-16 pb-20 px-4 md:px-8 lg:px-16 max-w-6xl mx-auto">
     <!-- Header -->
     <div class="mb-8 md:mb-12">
-      <h1 class="font-display text-lg md:text-xl font-medium text-wf-white mb-1">專案</h1>
-      <p class="font-mono text-[10px] tracking-[0.3em] text-wf-light/30 uppercase">Projects</p>
+      <a href="/" class="inline-block font-display text-sm text-wf-light/40 hover:text-wf-light/70 transition-colors duration-300 mb-6" data-clickable>
+        ← 返回
+      </a>
+      <h1 class="font-display text-xl md:text-2xl font-bold text-wf-white">專案</h1>
     </div>
 
     <!-- Grid -->

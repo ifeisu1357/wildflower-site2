@@ -4,8 +4,8 @@ artist: "蘇裔非"
 cover: "/images/projects/shaonian.jpg"
 type: "Album"
 year: 2026
-releaseDate: ""
-published: true
+releaseDate: "2026-06-15"
+published: false
 order: 1
 ---
 
