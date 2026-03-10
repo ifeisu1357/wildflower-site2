@@ -1,6 +1,6 @@
 ---
-// MRT Map — Mini Metro × Taipei Metro
-// One bold line, 7 square stations, rectangle train with GSAP MotionPath
+// MRT Map — Taipei Metro System × Mini Metro
+// 3 lines, river, 10 stations, 3 trains, logo passengers
 ---
 
 <canvas id="rain-canvas" class="fixed inset-0 pointer-events-none z-[1]"></canvas>
@@ -9,69 +9,114 @@
   <div id="mrt-pan-wrapper" class="w-full h-full flex items-center justify-center md:pointer-events-none">
     <svg
       id="mrt-svg"
-      viewBox="-20 0 1440 900"
-      class="w-[280%] md:w-full max-w-[1400px] h-auto select-none"
+      viewBox="0 0 1800 950"
+      class="w-[300%] md:w-full h-auto select-none"
       xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="xMidYMid meet"
     >
-      <!-- Bold main line -->
-      <path id="mrt-track"
-        d="M 100,450 L 300,450 L 380,350 L 580,350 L 660,450 L 860,450 L 940,350 L 1100,350 L 1180,450 L 1340,450"
-        fill="none" stroke="#e0e0e0" stroke-width="16" opacity="0.35"
-        stroke-linecap="round" stroke-linejoin="round" />
+      <!-- ═══ RIVER (thin dark blue, Taipei-style) ═══ -->
+      <path d="M 1050,0 L 1050,340 L 980,540 L 980,950"
+        fill="none" stroke="#1a3a5c" stroke-width="5" opacity="0.35"
+        stroke-linecap="round" stroke-linejoin="round"/>
 
-      <!-- 7 square stations — all same size, evenly spread -->
-      <!-- S1: terminal left -->
-      <rect x="93" y="443" width="14" height="14" fill="#0a0a0a" stroke="#e0e0e0" stroke-width="2.5" opacity="0.45" />
+      <!-- ═══ TRACKS ═══ -->
 
-      <!-- S2: 商店 (Store) — clickable -->
+      <!-- Dim Gray Line (upper diagonal) -->
+      <path id="track-dim"
+        d="M 200,280 L 500,280 L 700,160 L 1050,160 L 1250,280 L 1500,280"
+        fill="none" stroke="#606060" stroke-width="14" opacity="0.20"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- Light Gray Line (north-south) -->
+      <path id="track-gray"
+        d="M 500,80 L 500,280 L 500,420 L 600,520 L 600,750 L 500,850"
+        fill="none" stroke="#909090" stroke-width="14" opacity="0.25"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- White Line (horizontal main, most prominent) -->
+      <path id="track-white"
+        d="M 100,520 L 400,520 L 500,420 L 800,420 L 900,520 L 1200,520 L 1300,420 L 1600,420 L 1700,520"
+        fill="none" stroke="#d0d0d0" stroke-width="16" opacity="0.35"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- ═══ FILLER STATIONS (same 14×14 squares) ═══ -->
+
+      <!-- White terminals -->
+      <rect x="93" y="513" width="14" height="14" fill="#0a0a0a" stroke="#d0d0d0" stroke-width="2" opacity="0.30"/>
+      <rect x="893" y="513" width="14" height="14" fill="#0a0a0a" stroke="#d0d0d0" stroke-width="2" opacity="0.30"/>
+      <rect x="1693" y="513" width="14" height="14" fill="#0a0a0a" stroke="#d0d0d0" stroke-width="2" opacity="0.30"/>
+
+      <!-- Dim Gray terminals + filler -->
+      <rect x="193" y="273" width="14" height="14" fill="#0a0a0a" stroke="#606060" stroke-width="2" opacity="0.22"/>
+      <rect x="1043" y="153" width="14" height="14" fill="#0a0a0a" stroke="#606060" stroke-width="2" opacity="0.22"/>
+
+      <!-- Transfer: LGray × Dim at (500,280) -->
+      <rect x="493" y="273" width="14" height="14" fill="#0a0a0a" stroke="#d0d0d0" stroke-width="2.5" opacity="0.40"/>
+
+      <!-- ═══ CLICKABLE STATIONS ═══ -->
+
+      <!-- 商店 (Store) — Light Gray north -->
       <g class="mrt-station" data-clickable>
         <a href="https://shop.wild-flower.co" target="_blank" rel="noopener">
-          <rect x="373" y="343" width="14" height="14" fill="#0a0a0a" stroke="#e0e0e0" stroke-width="2.5" opacity="0.65" />
-          <text x="380" y="330" text-anchor="middle" fill="#e0e0e0"
-            font-family="'Noto Sans TC', sans-serif" font-size="13" font-weight="700"
-            letter-spacing="0.12em" opacity="0.6">商店</text>
+          <rect x="493" y="73" width="14" height="14" fill="#0a0a0a" stroke="#d0d0d0" stroke-width="2.5" opacity="0.65"/>
+          <text x="500" y="62" text-anchor="middle" fill="#d0d0d0" font-family="'Noto Sans TC',sans-serif" font-size="13" font-weight="700" letter-spacing="0.12em" opacity="0.6">商店</text>
         </a>
       </g>
 
-      <!-- S3: filler -->
-      <rect x="573" y="343" width="14" height="14" fill="#0a0a0a" stroke="#e0e0e0" stroke-width="2.5" opacity="0.45" />
-
-      <!-- S4: 成員 (Artists) — clickable, center hub -->
+      <!-- 成員 (Artists) — White × LGray transfer -->
       <g class="mrt-station" data-clickable>
         <a href="/artists">
-          <rect x="653" y="443" width="14" height="14" fill="#0a0a0a" stroke="#e0e0e0" stroke-width="2.5" opacity="0.65" />
-          <text x="660" y="433" text-anchor="middle" fill="#e0e0e0"
-            font-family="'Noto Sans TC', sans-serif" font-size="13" font-weight="700"
-            letter-spacing="0.12em" opacity="0.6">成員</text>
+          <rect x="493" y="413" width="14" height="14" fill="#0a0a0a" stroke="#d0d0d0" stroke-width="2.5" opacity="0.65"/>
+          <text x="500" y="402" text-anchor="middle" fill="#d0d0d0" font-family="'Noto Sans TC',sans-serif" font-size="13" font-weight="700" letter-spacing="0.12em" opacity="0.6">成員</text>
         </a>
       </g>
 
-      <!-- S5: 專案 (Projects) — clickable -->
+      <!-- 專案 (Projects) — White Line east of river -->
       <g class="mrt-station" data-clickable>
         <a href="/projects">
-          <rect x="933" y="343" width="14" height="14" fill="#0a0a0a" stroke="#e0e0e0" stroke-width="2.5" opacity="0.65" />
-          <text x="940" y="330" text-anchor="middle" fill="#e0e0e0"
-            font-family="'Noto Sans TC', sans-serif" font-size="13" font-weight="700"
-            letter-spacing="0.12em" opacity="0.6">專案</text>
+          <rect x="1293" y="413" width="14" height="14" fill="#0a0a0a" stroke="#d0d0d0" stroke-width="2.5" opacity="0.65"/>
+          <text x="1300" y="402" text-anchor="middle" fill="#d0d0d0" font-family="'Noto Sans TC',sans-serif" font-size="13" font-weight="700" letter-spacing="0.12em" opacity="0.6">專案</text>
         </a>
       </g>
 
-      <!-- S6: 社群 (Social/IG) — clickable -->
+      <!-- 社群 (Social) — Dim Gray east terminal -->
       <g class="mrt-station" data-clickable>
         <a href="https://instagram.com/wildflower" target="_blank" rel="noopener">
-          <rect x="1173" y="443" width="14" height="14" fill="#0a0a0a" stroke="#e0e0e0" stroke-width="2.5" opacity="0.65" />
-          <text x="1180" y="433" text-anchor="middle" fill="#e0e0e0"
-            font-family="'Noto Sans TC', sans-serif" font-size="13" font-weight="700"
-            letter-spacing="0.12em" opacity="0.6">社群</text>
+          <rect x="1493" y="273" width="14" height="14" fill="#0a0a0a" stroke="#d0d0d0" stroke-width="2.5" opacity="0.65"/>
+          <text x="1500" y="262" text-anchor="middle" fill="#d0d0d0" font-family="'Noto Sans TC',sans-serif" font-size="13" font-weight="700" letter-spacing="0.12em" opacity="0.6">社群</text>
         </a>
       </g>
 
-      <!-- S7: terminal right -->
-      <rect x="1333" y="443" width="14" height="14" fill="#0a0a0a" stroke="#e0e0e0" stroke-width="2.5" opacity="0.45" />
+      <!-- 演出 (Live) — Light Gray south terminal -->
+      <g class="mrt-station" data-clickable>
+        <a href="/live">
+          <rect x="493" y="843" width="14" height="14" fill="#0a0a0a" stroke="#d0d0d0" stroke-width="2.5" opacity="0.65"/>
+          <text x="500" y="832" text-anchor="middle" fill="#d0d0d0" font-family="'Noto Sans TC',sans-serif" font-size="13" font-weight="700" letter-spacing="0.12em" opacity="0.6">演出</text>
+        </a>
+      </g>
 
-      <!-- Train — simple white rectangle -->
-      <rect id="mrt-train" x="-18" y="-5" width="36" height="10" rx="2" fill="#e0e0e0" opacity="0.8" />
+      <!-- ═══ PASSENGERS (logo instances near clickable stations) ═══ -->
+      <image href="/images/logo.png" x="472" y="392" width="12" height="12" opacity="0.18" class="passenger" data-station="成員"/>
+      <image href="/images/logo.png" x="518" y="398" width="12" height="12" opacity="0.14" class="passenger" data-station="成員"/>
+      <image href="/images/logo.png" x="480" y="436" width="12" height="12" opacity="0.16" class="passenger" data-station="成員"/>
+
+      <image href="/images/logo.png" x="472" y="54" width="12" height="12" opacity="0.16" class="passenger" data-station="商店"/>
+      <image href="/images/logo.png" x="518" y="60" width="12" height="12" opacity="0.12" class="passenger" data-station="商店"/>
+
+      <image href="/images/logo.png" x="1272" y="394" width="12" height="12" opacity="0.16" class="passenger" data-station="專案"/>
+      <image href="/images/logo.png" x="1318" y="400" width="12" height="12" opacity="0.13" class="passenger" data-station="專案"/>
+      <image href="/images/logo.png" x="1280" y="436" width="12" height="12" opacity="0.10" class="passenger" data-station="專案"/>
+
+      <image href="/images/logo.png" x="1472" y="256" width="12" height="12" opacity="0.14" class="passenger" data-station="社群"/>
+      <image href="/images/logo.png" x="1518" y="262" width="12" height="12" opacity="0.11" class="passenger" data-station="社群"/>
+
+      <image href="/images/logo.png" x="472" y="826" width="12" height="12" opacity="0.14" class="passenger" data-station="演出"/>
+      <image href="/images/logo.png" x="518" y="832" width="12" height="12" opacity="0.11" class="passenger" data-station="演出"/>
+
+      <!-- ═══ TRAINS (white rectangles, one per line) ═══ -->
+      <rect id="train-white" x="-18" y="-5" width="36" height="10" rx="2" fill="#d0d0d0" opacity="0.8"/>
+      <rect id="train-gray" x="-16" y="-5" width="32" height="10" rx="2" fill="#909090" opacity="0.6"/>
+      <rect id="train-dim" x="-14" y="-4" width="28" height="8" rx="2" fill="#707070" opacity="0.5"/>
     </svg>
   </div>
 </div>
@@ -82,37 +127,26 @@
   gsap.registerPlugin(MotionPathPlugin);
 
   document.addEventListener('astro:page-load', () => {
-    // ── Rain (subtle) ──
+    // ── Rain ──
     const canvas = document.getElementById('rain-canvas') as HTMLCanvasElement;
     if (canvas) {
       const ctx = canvas.getContext('2d')!;
       let aId: number;
-      function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+      const resize = () => { canvas.width = innerWidth; canvas.height = innerHeight; };
       resize(); addEventListener('resize', resize);
-      const drops: { x: number; y: number; speed: number; len: number; opacity: number }[] = [];
-      for (let i = 0; i < Math.floor(innerWidth / 12); i++) {
-        drops.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          speed: 1 + Math.random() * 2,
-          len: 6 + Math.random() * 12,
-          opacity: 0.015 + Math.random() * 0.025,
-        });
-      }
-      function draw() {
+      const drops: { x: number; y: number; speed: number; len: number; op: number }[] = [];
+      for (let i = 0; i < Math.floor(innerWidth / 12); i++)
+        drops.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+          speed: 1 + Math.random() * 2, len: 6 + Math.random() * 12, op: 0.015 + Math.random() * 0.025 });
+      const draw = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (const d of drops) {
-          ctx.beginPath();
-          ctx.moveTo(d.x, d.y);
-          ctx.lineTo(d.x + 0.3, d.y + d.len);
-          ctx.strokeStyle = `rgba(240,240,240,${d.opacity})`;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-          d.y += d.speed;
-          if (d.y > canvas.height) { d.y = -d.len; d.x = Math.random() * canvas.width; }
+          ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x + 0.3, d.y + d.len);
+          ctx.strokeStyle = `rgba(240,240,240,${d.op})`; ctx.lineWidth = 0.5; ctx.stroke();
+          d.y += d.speed; if (d.y > canvas.height) { d.y = -d.len; d.x = Math.random() * canvas.width; }
         }
         aId = requestAnimationFrame(draw);
-      }
+      };
       draw();
       document.addEventListener('astro:before-swap', () => cancelAnimationFrame(aId), { once: true });
     }
@@ -139,81 +173,97 @@
           sx = e.touches[0].clientX; sy = e.touches[0].clientY; spx = px; spy = py;
         }, { passive: true });
         wrapper.addEventListener('touchmove', e => {
-          px = spx + (e.touches[0].clientX - sx);
-          py = spy + (e.touches[0].clientY - sy);
+          px = spx + (e.touches[0].clientX - sx); py = spy + (e.touches[0].clientY - sy);
           clamp(); apply();
         }, { passive: true });
       }
     }
 
-    // ── Train — GSAP MotionPath with heavy feel ──
-    const train = document.getElementById('mrt-train');
-    if (!train || !document.querySelector('#mrt-track')) return;
-
-    // 7 station progress values along the path
-    // Path: 100→300(200) 300→380(113) 380→580(200) 580→660(113) 660→860(200) 860→940(113) 940→1100(160) 1100→1180(113) 1180→1340(160)
-    // Total ≈ 1372
-    // S1=0, S2=0.228, S3=0.374, S4=0.456, S5=0.602, S6=0.822, S7=1.0
-    const stops = [0, 0.228, 0.374, 0.456, 0.602, 0.822, 1.0];
-    // Hub stations: S2(商店)=1, S4(成員)=3, S5(專案)=4, S6(社群)=5
-    const hubs = new Set([1, 3, 4, 5]);
-    let cur = 0;
-
-    function nextStop() {
-      const next = (cur + 1) % stops.length;
-      if (next === 0) {
-        // Reached end → fade out, teleport to start, fade in
-        gsap.to(train, { duration: 0.6, opacity: 0, ease: 'power1.in', onComplete: () => {
-          gsap.set(train, {
-            motionPath: { path: '#mrt-track', align: '#mrt-track', alignOrigin: [0.5, 0.5], autoRotate: true, start: 0, end: 0 },
-          });
-          gsap.to(train, { duration: 0.5, opacity: 0.8, ease: 'power1.out', onComplete: () => {
-            cur = 0;
-            setTimeout(nextStop, 2000);
-          }});
-        }});
-        return;
-      }
-
-      const dist = Math.abs(stops[next] - stops[cur]);
-      // Heavier feel: longer duration, slower ease
-      gsap.to(train, {
-        duration: dist * 8,
-        motionPath: {
-          path: '#mrt-track',
-          align: '#mrt-track',
-          alignOrigin: [0.5, 0.5],
-          autoRotate: true,
-          start: stops[cur],
-          end: stops[next],
-        },
-        ease: 'power2.inOut',
-        onComplete: () => {
-          cur = next;
-          if (hubs.has(next)) {
-            // Hub station: subtle bounce on arrival (heavy train braking)
-            gsap.fromTo(train,
-              { x: '+=2' },
-              { x: '-=2', duration: 0.3, ease: 'elastic.out(1.0, 0.4)', onComplete: () => {
-                if ((window as any).playBlip) (window as any).playBlip();
-                setTimeout(nextStop, 2200 + Math.random() * 800);
-              }}
-            );
-          } else {
-            // Regular station: brief pause, no bounce
-            setTimeout(nextStop, 900 + Math.random() * 400);
-          }
-        },
+    // ── Passenger boarding animation ──
+    function boardPassengers(stationName: string) {
+      const ps = document.querySelectorAll(`.passenger[data-station="${stationName}"]`);
+      ps.forEach((p, i) => {
+        if (i > 1) return; // Board first 2
+        gsap.to(p, { opacity: 0, duration: 0.4, delay: i * 0.12 });
+        gsap.to(p, { opacity: 0.12 + Math.random() * 0.08, duration: 0.5, delay: 3.5 + i * 0.3 });
       });
     }
 
-    // Place train at start
-    gsap.set(train, {
-      motionPath: { path: '#mrt-track', align: '#mrt-track', alignOrigin: [0.5, 0.5], autoRotate: true, start: 0, end: 0 },
-    });
-    setTimeout(nextStop, 1500);
+    // ── Train animation helper ──
+    function runTrain(
+      id: string, trackId: string,
+      stops: number[], hubMap: Map<number, string>,
+      startDelay: number, baseOpacity: number
+    ) {
+      const el = document.getElementById(id);
+      if (!el || !document.querySelector(`#${trackId}`)) return;
+      let cur = 0;
 
-    // Hover blip on clickable stations
+      function go() {
+        const next = (cur + 1) % stops.length;
+        if (next === 0) {
+          gsap.to(el, { duration: 0.5, opacity: 0, ease: 'power1.in', onComplete: () => {
+            gsap.set(el, { motionPath: { path: `#${trackId}`, align: `#${trackId}`, alignOrigin: [0.5, 0.5], autoRotate: true, start: 0, end: 0 } });
+            gsap.to(el, { duration: 0.4, opacity: baseOpacity, ease: 'power1.out', onComplete: () => {
+              cur = 0; setTimeout(go, 2000 + Math.random() * 1000);
+            }});
+          }});
+          return;
+        }
+        const dist = Math.abs(stops[next] - stops[cur]);
+        gsap.to(el, {
+          duration: dist * 8,
+          motionPath: { path: `#${trackId}`, align: `#${trackId}`, alignOrigin: [0.5, 0.5], autoRotate: true, start: stops[cur], end: stops[next] },
+          ease: 'power2.inOut',
+          onComplete: () => {
+            cur = next;
+            const station = hubMap.get(next);
+            if (station) {
+              // Hub: bounce + board passengers
+              gsap.fromTo(el, { x: '+=2' }, { x: '-=2', duration: 0.3, ease: 'elastic.out(1.0, 0.4)', onComplete: () => {
+                if ((window as any).playBlip) (window as any).playBlip();
+                boardPassengers(station);
+                setTimeout(go, 2200 + Math.random() * 800);
+              }});
+            } else {
+              setTimeout(go, 900 + Math.random() * 400);
+            }
+          },
+        });
+      }
+
+      gsap.set(el, { motionPath: { path: `#${trackId}`, align: `#${trackId}`, alignOrigin: [0.5, 0.5], autoRotate: true, start: 0, end: 0 } });
+      setTimeout(go, startDelay);
+    }
+
+    // White Line: 9 path points, stations at 0(terminal), 0.250(成員), 0.500(filler), 0.750(專案), 1.0(terminal)
+    runTrain('train-white', 'track-white',
+      [0, 0.250, 0.500, 0.750, 1.0],
+      new Map([[1, '成員'], [3, '專案']]),
+      1500, 0.8
+    );
+
+    // Light Gray Line: stations at 0(商店), 0.235(transfer), 0.399(成員), 1.0(演出)
+    runTrain('train-gray', 'track-gray',
+      [0, 0.235, 0.399, 1.0],
+      new Map([[0, '商店'], [2, '成員'], [3, '演出']]),
+      3000, 0.6
+    );
+
+    // Dim Gray Line: stations at 0(terminal), 0.199(transfer), 0.586(filler), 0.906(社群), 1.0
+    runTrain('train-dim', 'track-dim',
+      [0, 0.199, 0.586, 0.906, 1.0],
+      new Map([[3, '社群']]),
+      5000, 0.5
+    );
+
+    // Idle passenger bobbing
+    document.querySelectorAll('.passenger').forEach((p, i) => {
+      gsap.to(p, { y: `+=${0.8 + Math.random() * 1.2}`, duration: 2 + Math.random() * 2,
+        delay: i * 0.2, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    });
+
+    // Hover sounds
     document.querySelectorAll('.mrt-station').forEach(el => {
       el.addEventListener('mouseenter', () => { if ((window as any).playBlip) (window as any).playBlip(); });
     });

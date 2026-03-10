@@ -1,15 +1,16 @@
 ---
-// Loading Screen: 1-100% counter → 進入野花 link
+// Loading Screen: 野花 logo top-left, counter → "enter" center, pixelated font
 ---
 <div class="loading-screen" id="loading-screen">
+  <!-- Logo top-left -->
+  <div class="fixed top-0 left-0 p-4 md:p-6 z-[100001]">
+    <span class="text-base md:text-lg text-wf-white" style="font-family: 'Noto Sans TC', sans-serif; font-weight: 900; letter-spacing: 0.08em;">野花</span>
+  </div>
+
+  <!-- Center: counter → enter -->
   <div class="text-center">
-    <span class="loading-counter" id="loading-counter">0</span>
-    <a
-      href="#"
-      class="enter-link hidden"
-      id="enter-link"
-      data-clickable
-    >進入野花</a>
+    <span class="loading-counter font-pixel" id="loading-counter">0</span>
+    <a href="#" class="enter-link font-pixel hidden" id="enter-link">enter</a>
   </div>
 </div>
 
@@ -18,38 +19,30 @@
   const counter = document.getElementById('loading-counter')!;
   const enterLink = document.getElementById('enter-link')!;
 
-  // Check if already entered this session
   if (sessionStorage.getItem('wf-entered') === '1') {
     screen.style.display = 'none';
   } else {
-    let count = 0;
-    const target = 100;
-    const duration = 2400; // ms
+    const duration = 2400;
     const startTime = performance.now();
 
     function animateCounter(now: number) {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // Ease out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
-      count = Math.floor(eased * target);
-      counter.textContent = String(count);
+      const count = Math.floor(eased * 100);
+      counter.textContent = count + '%';
 
       if (progress < 1) {
         requestAnimationFrame(animateCounter);
       } else {
-        counter.textContent = '100';
-        // Transition counter → enter link
+        counter.textContent = '100%';
         setTimeout(() => {
           counter.style.transition = 'opacity 0.6s ease';
           counter.style.opacity = '0';
           setTimeout(() => {
             counter.classList.add('hidden');
             enterLink.classList.remove('hidden');
-            // Fade in
-            requestAnimationFrame(() => {
-              enterLink.style.opacity = '1';
-            });
+            requestAnimationFrame(() => { enterLink.style.opacity = '1'; });
           }, 600);
         }, 400);
       }
@@ -57,20 +50,13 @@
 
     requestAnimationFrame(animateCounter);
 
-    // Handle enter click
     enterLink.addEventListener('click', (e) => {
       e.preventDefault();
       sessionStorage.setItem('wf-entered', '1');
-
-      // Dispatch event for audio manager
       window.dispatchEvent(new CustomEvent('wf:enter'));
-
-      // Fade out loading screen
       screen.style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
       screen.style.opacity = '0';
-      setTimeout(() => {
-        screen.style.display = 'none';
-      }, 800);
+      setTimeout(() => { screen.style.display = 'none'; }, 800);
     });
   }
 </script>

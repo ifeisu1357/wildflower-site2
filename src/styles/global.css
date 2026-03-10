@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,10 +6,13 @@
 
 /* ── Base ── */
 * {
-  cursor: none !important;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.font-pixel {
+  font-family: 'Press Start 2P', monospace;
 }
 
 ::selection {
@@ -109,27 +112,24 @@ a:hover, button:hover, [data-clickable]:hover {
 }
 
 .loading-counter {
-  font-family: 'Inter', 'Noto Sans TC', sans-serif;
-  font-size: clamp(2rem, 6vw, 4.5rem);
-  font-weight: 800;
-  letter-spacing: 0.02em;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
   color: #f0f0f0;
+  letter-spacing: 0.05em;
 }
 
 .enter-link {
-  font-family: 'Noto Sans TC', 'Inter', sans-serif;
-  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
-  font-weight: 900;
-  letter-spacing: 0.15em;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.7rem, 1.8vw, 1rem);
   color: #f0f0f0;
   text-decoration: none;
   opacity: 0;
-  transition: opacity 0.8s ease, filter 0.4s ease;
+  transition: opacity 0.8s ease;
+  letter-spacing: 0.05em;
 }
 
 .enter-link:hover {
-  filter: blur(0.3px) brightness(1.2) !important;
-  opacity: 0.8 !important;
+  opacity: 0.6 !important;
 }
 
 /* ── Page Transitions ── */
@@ -152,11 +152,11 @@ a:hover, button:hover, [data-clickable]:hover {
 }
 
 /* ── MRT Mini Metro ── */
-.mrt-station-clickable {
+.mrt-station {
   transition: opacity 0.3s ease;
 }
 
-.mrt-station-clickable:hover .station-label {
+.mrt-station:hover .station-label {
   opacity: 1 !important;
 }
 
