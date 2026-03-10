@@ -3,19 +3,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="演出 — WILDFLOWER野花" description="WILDFLOWER野花 live shows and events">
-  <div class="min-h-screen pt-16 pb-20 px-4 md:px-8 lg:px-16 max-w-4xl mx-auto">
-    <!-- Header -->
-    <div class="mb-8 md:mb-12">
-      <h1 class="font-display text-lg md:text-xl font-medium text-wf-white mb-1">演出</h1>
-      <p class="font-mono text-[10px] tracking-[0.3em] text-wf-light/30 uppercase">Live</p>
-    </div>
-
-    <!-- Empty state -->
-    <div class="border-t border-wf-mid/20">
-      <div class="py-16 text-center">
-        <p class="font-mono text-sm tracking-[0.2em] text-wf-light/25">暫無演出</p>
-        <p class="font-mono text-[10px] tracking-[0.15em] text-wf-light/15 mt-2">NO UPCOMING SHOWS</p>
-      </div>
+  <div class="min-h-screen flex items-center justify-center px-4">
+    <div class="text-center">
+      <a href="/" class="inline-block font-display text-sm text-wf-light/40 hover:text-wf-light/70 transition-colors duration-300 mb-12" data-clickable>
+        ← 返回
+      </a>
+      <h1 class="font-display text-xl md:text-2xl font-bold text-wf-white mb-4">演出</h1>
+      <p class="font-display text-sm tracking-[0.3em] text-wf-light/25">COMING SOON</p>
     </div>
   </div>
 </BaseLayout>
