@@ -12,8 +12,8 @@ export default {
         'wf-white': '#f0f0f0',
       },
       fontFamily: {
-        sans: ['"Inter"', '"Noto Sans TC"', '"Helvetica Neue"', 'sans-serif'],
-        display: ['"Noto Sans TC"', '"Inter"', 'sans-serif'],
+        sans: ['"Noto Sans TC"', '"Helvetica Neue"', 'sans-serif'],
+        display: ['"Noto Sans TC"', 'sans-serif'],
         mono: ['"Space Mono"', 'Courier New', 'monospace'],
       },
     },
