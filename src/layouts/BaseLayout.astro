@@ -66,5 +66,20 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   </main>
 
   <Footer />
+
+  <!-- Day/Night System -->
+  <script>
+    function applyDayNight() {
+      const hour = new Date().getHours();
+      const isDay = hour >= 6 && hour < 18;
+      document.body.classList.toggle('day-mode', isDay);
+    }
+    // Apply immediately (no flash)
+    applyDayNight();
+    // Re-check every minute
+    setInterval(applyDayNight, 60000);
+    // Re-apply on Astro page transitions
+    document.addEventListener('astro:page-load', applyDayNight);
+  </script>
 </body>
 </html>

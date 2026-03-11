@@ -9,17 +9,14 @@ const artists = (await getCollection('artists')).sort(
 ---
 
 <BaseLayout title="成員 — WILDFLOWER野花" description="WILDFLOWER野花 label members">
-  <div class="min-h-screen pt-16 pb-20 px-4 md:px-8 lg:px-16 max-w-3xl mx-auto">
-    <!-- Header -->
-    <div class="mb-10">
-      <a href="/" class="inline-block font-display text-sm text-wf-light/40 hover:text-wf-light/70 transition-colors duration-300 mb-6" data-clickable>
-        ← 返回
-      </a>
-      <h1 class="font-display text-xl md:text-2xl font-bold text-wf-white">成員</h1>
-    </div>
+  <div class="min-h-screen pt-12 pb-20 px-6 md:px-12 lg:px-24 max-w-[1400px] mx-auto">
+    <!-- Back button: Space Mono, minimal -->
+    <a href="/" class="inline-block font-mono text-[10px] tracking-[0.3em] text-wf-light/30 hover:text-wf-light/60 transition-colors duration-500 mb-16 md:mb-24 uppercase" data-clickable>
+      ← Back
+    </a>
 
-    <!-- Clean vertical list -->
-    <div class="space-y-0">
+    <!-- Editorial artist stack: massive names, negative space -->
+    <div class="space-y-2 md:space-y-4">
       {artists.map((artist) => (
         <ArtistCard
           slug={artist.slug}

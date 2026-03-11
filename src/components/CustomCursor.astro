@@ -26,7 +26,7 @@
     animateRing();
 
     // Expand on hover over clickable elements
-    const hoverTargets = 'a, button, [data-clickable], .mrt-station-clickable';
+    const hoverTargets = 'a, button, [data-clickable], .mrt-station';
     document.addEventListener('mouseover', (e) => {
       const target = (e.target as Element).closest(hoverTargets);
       if (target) ring.classList.add('hovering');

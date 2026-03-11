@@ -11,19 +11,23 @@ const { slug, name, tag, photo } = Astro.props;
 
 <a
   href={`/artists/${slug}`}
-  class="group flex items-center gap-4 py-4 transition-all duration-300 hover:opacity-70"
+  class="group relative block py-6 md:py-10 transition-all duration-700 hover:opacity-80"
   data-clickable
 >
-  <div class="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 bg-wf-gray flex items-center justify-center overflow-hidden">
-    {photo ? (
-      <img src={photo} alt={name} class="w-full h-full object-cover" />
-    ) : (
-      <span class="text-wf-mid text-xs font-display">—</span>
-    )}
-  </div>
+  <!-- Full-bleed photo fades in on hover -->
+  {photo && (
+    <div class="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-[0.12] transition-opacity duration-700 pointer-events-none">
+      <img src={photo} alt="" class="w-full h-full object-cover" loading="lazy" />
+    </div>
+  )}
 
-  <div class="flex-1 min-w-0">
-    <h3 class="font-display text-base text-wf-white tracking-wide">{name}</h3>
-    <p class="font-display text-xs text-wf-light/35 mt-0.5 tracking-wider">{tag}</p>
+  <!-- Massive editorial typography -->
+  <div class="relative z-10">
+    <h2 class="font-display text-[3rem] md:text-[5rem] lg:text-[7rem] font-black leading-[0.85] text-wf-white tracking-tight">
+      {name}
+    </h2>
+    <p class="font-mono text-[10px] md:text-xs tracking-[0.3em] text-wf-light/30 mt-3 uppercase">
+      {tag}
+    </p>
   </div>
 </a>
