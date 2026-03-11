@@ -170,14 +170,29 @@ declare module 'astro:content' {
   data: InferEntrySchema<"artists">
 } & { render(): Render[".md"] };
 };
-"live": Record<string, {
-  id: string;
-  slug: string;
+"live": {
+"fall-festival.md": {
+	id: "fall-festival.md";
+  slug: "fall-festival";
   body: string;
   collection: "live";
-  data: InferEntrySchema<"live">;
-  render(): Render[".md"];
-}>;
+  data: InferEntrySchema<"live">
+} & { render(): Render[".md"] };
+"sample-events.md": {
+	id: "sample-events.md";
+  slug: "sample-events";
+  body: string;
+  collection: "live";
+  data: InferEntrySchema<"live">
+} & { render(): Render[".md"] };
+"summer-show.md": {
+	id: "summer-show.md";
+  slug: "summer-show";
+  body: string;
+  collection: "live";
+  data: InferEntrySchema<"live">
+} & { render(): Render[".md"] };
+};
 "projects": {
 "shaonian.md": {
 	id: "shaonian.md";

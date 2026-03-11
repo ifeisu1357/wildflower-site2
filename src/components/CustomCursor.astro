@@ -1,5 +1,5 @@
 ---
-// Custom Cursor: 8px square, high contrast white, diamond on hover
+// Custom Cursor: 12px white circle, expands on hover
 ---
 
 <div class="cursor-dot" id="cursor-dot"></div>
@@ -12,12 +12,8 @@
       return;
     }
 
-    let mouseX = 0, mouseY = 0;
-
     document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      dot.style.transform = `translate(${mouseX - 4}px, ${mouseY - 4}px)`;
+      dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
     });
 
     const hoverTargets = 'a, button, [data-clickable], .mrt-station';

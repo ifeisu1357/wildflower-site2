@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=Unbounded:wght@200;300;400;700;900&family=Noto+Serif+TC:wght@300;400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -35,19 +35,23 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 8px;
-  height: 8px;
-  background: #E8E4DE;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  margin-top: -6px;
+  background: #FFFFFF;
+  border-radius: 50%;
   pointer-events: none;
-  z-index: 99999;
-  transition: width 0.2s ease, height 0.2s ease, opacity 0.15s ease;
-  mix-blend-mode: exclusion;
+  z-index: 100001;
+  transition: width 0.2s ease, height 0.2s ease, margin 0.2s ease, opacity 0.15s ease;
 }
 
 .cursor-dot.hovering {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  margin-left: -11px;
+  margin-top: -11px;
+  background: rgba(255, 255, 255, 0.5);
 }
 
 /* ── Loading Screen ── */
@@ -90,21 +94,7 @@ body {
   opacity: 0.5 !important;
 }
 
-/* ── Header ── */
-.topper-link {
-  font-family: 'IBM Plex Mono', monospace;
-  font-weight: 400;
-  font-size: 11px;
-  color: #D4D0C8;
-  text-decoration: none;
-  letter-spacing: 0.3em;
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-}
-
-.topper-link:hover {
-  opacity: 1;
-}
+/* ── Header — styles moved to Topper.astro ── */
 
 /* ── Page Transitions — hard cut, 150ms fade ── */
 ::view-transition-old(root) {

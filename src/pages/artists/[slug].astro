@@ -21,56 +21,61 @@ const links = artist.data.links;
 ---
 
 <BaseLayout title={`${artist.data.name} — WILDFLOWER`}>
-  <!-- Hero photo background -->
-  {photo && (
-    <div class="artist-hero" style={`background-image: url(${photo})`}></div>
-  )}
-
-  <main class="min-h-screen pt-32 pb-20 px-5 md:px-10 relative z-10">
-    <div class="max-w-3xl">
-      <!-- Profile photo -->
-      {photo && (
+  <main class="min-h-screen pt-28 pb-20 px-5 md:px-12 relative z-10">
+    <div class="artist-detail">
+      <div class="artist-left">
+        <!-- Profile photo -->
         <div class="artist-photo-wrap">
-          <img src={photo} alt={artist.data.name} class="artist-photo" />
+          {photo ? (
+            <img src={photo} alt={artist.data.name} class="artist-photo" />
+          ) : (
+            <div class="artist-photo-empty"></div>
+          )}
         </div>
-      )}
 
-      <h1 class="artist-title">{artist.data.name}</h1>
-      <p class="artist-role">{artist.data.tag}</p>
+        {links && (
+          <div class="artist-links">
+            {links.instagram && <a href={links.instagram} target="_blank" rel="noopener">IG</a>}
+            {links.spotify && <a href={links.spotify} target="_blank" rel="noopener">SP</a>}
+            {links.appleMusic && <a href={links.appleMusic} target="_blank" rel="noopener">AM</a>}
+            {links.website && <a href={links.website} target="_blank" rel="noopener">WEB</a>}
+          </div>
+        )}
+      </div>
 
-      {links && (
-        <div class="artist-links">
-          {links.instagram && <a href={links.instagram} target="_blank" rel="noopener">Instagram</a>}
-          {links.spotify && <a href={links.spotify} target="_blank" rel="noopener">Spotify</a>}
-          {links.appleMusic && <a href={links.appleMusic} target="_blank" rel="noopener">Apple Music</a>}
-          {links.website && <a href={links.website} target="_blank" rel="noopener">Website</a>}
+      <div class="artist-right">
+        <h1 class="artist-title">{artist.data.name}</h1>
+        <p class="artist-role">{artist.data.tag}</p>
+
+        <div class="artist-bio">
+          <Content />
         </div>
-      )}
-
-      <div class="artist-body">
-        <Content />
       </div>
     </div>
   </main>
 </BaseLayout>
 
 <style>
-  .artist-hero {
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    background-size: cover;
-    background-position: center;
-    opacity: 0.15;
-    filter: grayscale(0.5);
+  .artist-detail {
+    display: flex;
+    gap: 3rem;
+    max-width: 800px;
+    align-items: flex-start;
+  }
+
+  .artist-left {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
   }
 
   .artist-photo-wrap {
-    width: 120px;
-    height: 120px;
+    width: 180px;
+    height: 180px;
     overflow: hidden;
-    margin-bottom: 2rem;
-    border: 1px solid rgba(232, 228, 222, 0.1);
+    background: #18181b;
   }
 
   .artist-photo {
@@ -80,55 +85,79 @@ const links = artist.data.links;
     filter: grayscale(0.3);
   }
 
-  .artist-title {
-    font-family: 'IBM Plex Mono', monospace;
-    font-weight: 700;
-    font-size: clamp(3rem, 8vw, 8rem);
-    line-height: 0.95;
-    color: #E8E4DE;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.75rem;
-  }
-
-  .artist-role {
-    font-family: 'IBM Plex Mono', monospace;
-    font-weight: 300;
-    font-size: 12px;
-    color: #71717a;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 2.5rem;
+  .artist-photo-empty {
+    width: 100%;
+    height: 100%;
+    background: #18181b;
   }
 
   .artist-links {
     display: flex;
-    gap: 1.5rem;
-    margin-bottom: 3rem;
+    gap: 1rem;
   }
 
   .artist-links a {
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 400;
-    font-size: 11px;
-    color: #E8E4DE;
+    font-size: 10px;
+    color: #52525b;
     text-decoration: none;
-    letter-spacing: 0.08em;
-    opacity: 0.4;
+    letter-spacing: 0.12em;
+    transition: color 0.3s ease;
   }
 
   .artist-links a:hover {
+    color: #E8E4DE;
     opacity: 1;
   }
 
-  .artist-body {
-    font-family: 'IBM Plex Mono', monospace;
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 1.8;
-    color: #71717a;
+  .artist-right {
+    flex: 1;
+    padding-top: 0.5rem;
   }
 
-  .artist-body :global(p) {
+  .artist-title {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    line-height: 1;
+    color: #E8E4DE;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .artist-role {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 200;
+    font-size: 7px;
+    color: rgba(230, 230, 230, 0.22);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .artist-bio {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 2;
+    color: rgba(230, 230, 230, 0.3);
+    letter-spacing: 0.04em;
+  }
+
+  .artist-bio :global(p) {
     margin-bottom: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .artist-detail {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .artist-photo-wrap {
+      width: 140px;
+      height: 140px;
+    }
   }
 </style>

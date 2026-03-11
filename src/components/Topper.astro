@@ -1,7 +1,27 @@
 ---
-// Header: WILDFLOWER fixed top-left, IBM Plex Mono 400, 11px, wide tracking
+// Header: WILDFLOWER — Unbounded 900, matches original wildflower.html nav-logo
+// Hidden on homepage (/) since the map is the landing page
+const isHome = Astro.url.pathname === '/';
 ---
 
-<header class="fixed top-0 left-0 z-[9999] p-5 md:p-7">
-  <a href="/" class="topper-link">WILDFLOWER</a>
-</header>
+{!isHome && (
+  <header class="fixed top-0 left-0 w-full z-[9999]" style="padding: 24px 60px;">
+    <a href="/" class="topper-link">WILDFLOWER</a>
+  </header>
+)}
+
+<style>
+  .topper-link {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 900;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: #E8E4DE;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .topper-link:hover {
+    opacity: 0.5;
+  }
+</style>

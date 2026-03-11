@@ -6,99 +6,113 @@ const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b
 ---
 
 <BaseLayout title="ARTISTS — WILDFLOWER">
-  <main class="min-h-screen pt-24 pb-16 px-5 md:px-10">
-    <div class="artist-list">
+  <main class="min-h-screen flex items-center justify-center px-5 md:px-10">
+    <div class="artist-row">
       {artists.map((artist) => (
-        <a
-          href={`/artists/${artist.slug}`}
-          class="artist-row"
-          data-photo={artist.data.photo || ''}
-        >
-          <span class="artist-name">{artist.data.name}</span>
-          <span class="artist-tag">{artist.data.tag}</span>
+        <a href={`/artists/${artist.slug}`} class="artist-card">
+          <div class="artist-photo-box">
+            {artist.data.photo ? (
+              <img src={artist.data.photo} alt={artist.data.name} class="artist-thumb" />
+            ) : (
+              <div class="artist-thumb-placeholder"></div>
+            )}
+          </div>
+          <div class="artist-meta">
+            <span class="artist-name">{artist.data.name}</span>
+            <span class="artist-tag">{artist.data.tag}</span>
+          </div>
         </a>
       ))}
     </div>
-
-    <!-- Fullscreen photo backdrop -->
-    <div class="artist-backdrop" id="artist-backdrop"></div>
   </main>
 </BaseLayout>
 
 <style>
-  .artist-list {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-  }
-
   .artist-row {
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
+    gap: 2.5rem;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .artist-card {
+    display: flex;
+    flex-direction: column;
     text-decoration: none;
-    padding: 0.4rem 0;
-    border-bottom: 1px solid rgba(39, 39, 42, 0.4);
-    transition: opacity 0.4s ease;
+    transition: opacity 0.3s ease;
+    width: 160px;
+  }
+
+  .artist-card:hover {
+    opacity: 0.6;
+  }
+
+  .artist-photo-box {
+    width: 160px;
+    height: 160px;
+    overflow: hidden;
+    background: #18181b;
+    margin-bottom: 0.6rem;
+  }
+
+  .artist-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(0.4);
+    transition: filter 0.4s ease;
+  }
+
+  .artist-card:hover .artist-thumb {
+    filter: grayscale(0);
+  }
+
+  .artist-thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #18181b;
+  }
+
+  .artist-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
   }
 
   .artist-name {
     font-family: 'IBM Plex Mono', monospace;
-    font-weight: 700;
-    font-size: clamp(3rem, 10vw, 12rem);
-    line-height: 1.05;
+    font-weight: 500;
+    font-size: 13px;
     color: #E8E4DE;
-    letter-spacing: -0.02em;
-    transition: opacity 0.4s ease;
+    letter-spacing: 0.04em;
   }
 
   .artist-tag {
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 300;
-    font-size: 11px;
-    color: #71717a;
-    letter-spacing: 0.08em;
+    font-size: 10px;
+    color: rgba(230, 230, 230, 0.26);
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    flex-shrink: 0;
-    margin-left: 2rem;
   }
 
-  .artist-row:hover .artist-name {
-    opacity: 0.15;
-  }
+  @media (max-width: 640px) {
+    .artist-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      max-width: 340px;
+    }
 
-  .artist-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    pointer-events: none;
-    filter: grayscale(0.5);
+    .artist-card {
+      width: 100%;
+    }
+
+    .artist-photo-box {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+    }
   }
 </style>
-
-<script>
-  document.addEventListener('astro:page-load', () => {
-    const backdrop = document.getElementById('artist-backdrop');
-    const rows = document.querySelectorAll('.artist-row');
-    if (!backdrop) return;
-
-    rows.forEach((row) => {
-      row.addEventListener('mouseenter', () => {
-        const photo = row.getAttribute('data-photo');
-        if (photo) {
-          backdrop.style.backgroundImage = `url(${photo})`;
-          backdrop.style.opacity = '0.35';
-        }
-      });
-      row.addEventListener('mouseleave', () => { backdrop.style.opacity = '0'; });
-      row.addEventListener('click', () => {
-        if ((window as any).playClick) (window as any).playClick();
-      });
-    });
-  });
-</script>

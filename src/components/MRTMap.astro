@@ -1,92 +1,109 @@
 ---
 // MRT Map — Mini Metro × WILDFLOWER
-// 2 lines (orange + blue), 5 stations, large squares, high contrast
-// Trains: decelerate → dwell 1.2s → accelerate (GSAP MotionPath)
-// Passengers: spawn → queue → board → ride → disembark
+// 3 lines (blue/yellow/red), slightly rounded 90° corners,
+// all-square stations, T-terminus caps, centered layout shifted right,
+// bigger trains, Chinese station labels, passenger ecosystem, fade-in
 ---
 
-<div class="w-full h-screen relative overflow-hidden" id="mrt-container">
+<div class="w-full h-screen relative overflow-hidden flex items-center justify-center" id="mrt-container" style="opacity:0">
   <svg
     id="mrt-svg"
-    viewBox="0 0 1200 700"
-    class="w-full h-full select-none"
+    viewBox="-80 0 1400 750"
+    class="w-full select-none"
+    style="max-height: 80vh;"
     xmlns="http://www.w3.org/2000/svg"
     preserveAspectRatio="xMidYMid meet"
   >
-    <!-- ═══ TRACKS (12px, high contrast, simple readable layout) ═══ -->
+    <!-- ═══ TRACKS — 3 colored lines, 24px, slightly rounded corners ═══ -->
 
-    <!-- Orange Line (horizontal): STORE → ARTISTS → PROJECTS (straight with one bend) -->
-    <path id="track-orange"
-      d="M 150,350 L 400,350 L 600,350 L 800,350 L 1050,350"
-      fill="none" stroke="#E8753D" stroke-width="12" opacity="0.45"
-      stroke-linecap="round" stroke-linejoin="round"/>
-
-    <!-- Blue Line (vertical/diagonal): SOCIALS → ARTISTS → LIVE -->
+    <!-- Blue Line: 追蹤 → 商店 → 成員 -->
     <path id="track-blue"
-      d="M 600,120 L 600,220 L 600,350 L 600,480 L 600,600"
-      fill="none" stroke="#4A90D9" stroke-width="12" opacity="0.45"
-      stroke-linecap="round" stroke-linejoin="round"/>
+      d="M 280,80 L 280,420 Q 280,460 320,460 L 560,460"
+      fill="none" stroke="#3B7DD8" stroke-width="24"
+      stroke-linecap="square" stroke-linejoin="miter"/>
 
-    <!-- ═══ STATIONS (28×28 squares, very clickable, high contrast) ═══ -->
+    <!-- Yellow Line: 成員 → 活動 -->
+    <path id="track-yellow"
+      d="M 510,510 L 510,260 Q 510,220 550,220 L 780,220"
+      fill="none" stroke="#E8B830" stroke-width="24"
+      stroke-linecap="square" stroke-linejoin="miter"/>
 
-    <!-- STORE — Orange Line left terminus -->
+    <!-- Red Line: 活動 → 專案 -->
+    <path id="track-red"
+      d="M 740,180 L 740,420 Q 740,460 780,460 L 1040,460"
+      fill="none" stroke="#D44A33" stroke-width="24"
+      stroke-linecap="square" stroke-linejoin="miter"/>
+
+    <!-- ═══ T-SHAPED TERMINUS CAPS ═══ -->
+    <line x1="260" y1="80" x2="300" y2="80" stroke="#3B7DD8" stroke-width="8" stroke-linecap="square"/>
+    <line x1="560" y1="440" x2="560" y2="480" stroke="#3B7DD8" stroke-width="8" stroke-linecap="square"/>
+    <line x1="490" y1="510" x2="530" y2="510" stroke="#E8B830" stroke-width="8" stroke-linecap="square"/>
+    <line x1="780" y1="200" x2="780" y2="240" stroke="#E8B830" stroke-width="8" stroke-linecap="square"/>
+    <line x1="720" y1="180" x2="760" y2="180" stroke="#D44A33" stroke-width="8" stroke-linecap="square"/>
+    <line x1="1040" y1="440" x2="1040" y2="480" stroke="#D44A33" stroke-width="8" stroke-linecap="square"/>
+
+    <!-- ═══ TRAINS — wider+longer than track, drawn BEFORE stations ═══ -->
+    <rect id="train-blue" x="-40" y="-18" width="80" height="36"
+      fill="#3B7DD8" style="opacity:0"/>
+    <rect id="train-yellow" x="-40" y="-18" width="80" height="36"
+      fill="#E8B830" style="opacity:0"/>
+    <rect id="train-red" x="-40" y="-18" width="80" height="36"
+      fill="#D44A33" style="opacity:0"/>
+
+    <!-- ═══ STATIONS — ALL SQUARES, thick white outlines, on top of trains ═══ -->
+
+    <!-- 追蹤 (Blue top) -->
+    <g class="mrt-station" data-station="socials" data-href="https://www.instagram.com/wldflwrtw/" data-external="true">
+      <rect class="station-hit" x="252" y="88" width="56" height="56" fill="transparent"/>
+      <rect class="station-shape" x="262" y="98" width="36" height="36"
+        fill="#09090b" stroke="#FFFFFF" stroke-width="5"/>
+      <text class="station-label" x="320" y="122" text-anchor="start"
+        fill="#FFFFFF" font-family="'IBM Plex Mono',monospace" font-size="16" font-weight="500"
+        letter-spacing="0.08em" opacity="0">追蹤</text>
+    </g>
+
+    <!-- 商店 (Blue bend) -->
     <g class="mrt-station" data-station="store" data-href="https://shop.wild-flower.co" data-external="true">
-      <rect class="station-hit" x="122" y="322" width="56" height="56" fill="transparent" stroke="none"/>
-      <rect class="station-square" x="136" y="336" width="28" height="28"
-        fill="#09090b" stroke="#E8753D" stroke-width="2.5" opacity="0.55"/>
-      <text class="station-label" x="150" y="326" text-anchor="middle"
-        fill="#E8E4DE" font-family="'IBM Plex Mono',monospace" font-size="14" font-weight="600"
-        letter-spacing="0.12em" opacity="0">STORE</text>
+      <rect class="station-hit" x="252" y="372" width="56" height="56" fill="transparent"/>
+      <rect class="station-shape" x="262" y="382" width="36" height="36"
+        fill="#09090b" stroke="#FFFFFF" stroke-width="5"/>
+      <text class="station-label" x="240" y="406" text-anchor="end"
+        fill="#FFFFFF" font-family="'IBM Plex Mono',monospace" font-size="16" font-weight="500"
+        letter-spacing="0.08em" opacity="0">商店</text>
     </g>
 
-    <!-- ARTISTS — Orange ∩ Blue transfer (center hub) -->
+    <!-- 成員 (Blue/Yellow transfer) -->
     <g class="mrt-station" data-station="artists" data-href="/artists">
-      <rect class="station-hit" x="572" y="322" width="56" height="56" fill="transparent" stroke="none"/>
-      <rect class="station-square" x="586" y="336" width="28" height="28"
-        fill="#09090b" stroke="#E8E4DE" stroke-width="2.5" opacity="0.55"/>
-      <text class="station-label" x="600" y="326" text-anchor="middle"
-        fill="#E8E4DE" font-family="'IBM Plex Mono',monospace" font-size="14" font-weight="600"
-        letter-spacing="0.12em" opacity="0">ARTISTS</text>
+      <rect class="station-hit" x="482" y="432" width="56" height="56" fill="transparent"/>
+      <rect class="station-shape" x="492" y="442" width="36" height="36"
+        fill="#09090b" stroke="#FFFFFF" stroke-width="5"/>
+      <text class="station-label" x="510" y="430" text-anchor="middle"
+        fill="#FFFFFF" font-family="'IBM Plex Mono',monospace" font-size="16" font-weight="500"
+        letter-spacing="0.08em" opacity="0">成員</text>
     </g>
 
-    <!-- PROJECTS — Orange Line right terminus -->
-    <g class="mrt-station" data-station="projects" data-href="/projects">
-      <rect class="station-hit" x="1022" y="322" width="56" height="56" fill="transparent" stroke="none"/>
-      <rect class="station-square" x="1036" y="336" width="28" height="28"
-        fill="#09090b" stroke="#E8753D" stroke-width="2.5" opacity="0.55"/>
-      <text class="station-label" x="1050" y="326" text-anchor="middle"
-        fill="#E8E4DE" font-family="'IBM Plex Mono',monospace" font-size="14" font-weight="600"
-        letter-spacing="0.12em" opacity="0">PROJECTS</text>
-    </g>
-
-    <!-- SOCIALS — Blue Line top terminus -->
-    <g class="mrt-station" data-station="socials" data-href="https://instagram.com/wildflower" data-external="true">
-      <rect class="station-hit" x="572" y="92" width="56" height="56" fill="transparent" stroke="none"/>
-      <rect class="station-square" x="586" y="106" width="28" height="28"
-        fill="#09090b" stroke="#4A90D9" stroke-width="2.5" opacity="0.55"/>
-      <text class="station-label" x="600" y="96" text-anchor="middle"
-        fill="#E8E4DE" font-family="'IBM Plex Mono',monospace" font-size="14" font-weight="600"
-        letter-spacing="0.12em" opacity="0">SOCIALS</text>
-    </g>
-
-    <!-- LIVE — Blue Line bottom terminus -->
+    <!-- 活動 (Yellow/Red transfer) — centered at (740,220) on both tracks -->
     <g class="mrt-station" data-station="live" data-href="/live">
-      <rect class="station-hit" x="572" y="572" width="56" height="56" fill="transparent" stroke="none"/>
-      <rect class="station-square" x="586" y="586" width="28" height="28"
-        fill="#09090b" stroke="#4A90D9" stroke-width="2.5" opacity="0.55"/>
-      <text class="station-label" x="600" y="576" text-anchor="middle"
-        fill="#E8E4DE" font-family="'IBM Plex Mono',monospace" font-size="14" font-weight="600"
-        letter-spacing="0.12em" opacity="0">LIVE</text>
+      <rect class="station-hit" x="712" y="192" width="56" height="56" fill="transparent"/>
+      <rect class="station-shape" x="722" y="202" width="36" height="36"
+        fill="#09090b" stroke="#FFFFFF" stroke-width="5"/>
+      <text class="station-label" x="778" y="226" text-anchor="start"
+        fill="#FFFFFF" font-family="'IBM Plex Mono',monospace" font-size="16" font-weight="500"
+        letter-spacing="0.08em" opacity="0">活動</text>
+    </g>
+
+    <!-- 專案 (Red terminus) -->
+    <g class="mrt-station" data-station="projects" data-href="/projects">
+      <rect class="station-hit" x="972" y="432" width="56" height="56" fill="transparent"/>
+      <rect class="station-shape" x="982" y="442" width="36" height="36"
+        fill="#09090b" stroke="#FFFFFF" stroke-width="5"/>
+      <text class="station-label" x="1000" y="430" text-anchor="middle"
+        fill="#FFFFFF" font-family="'IBM Plex Mono',monospace" font-size="16" font-weight="500"
+        letter-spacing="0.08em" opacity="0">專案</text>
     </g>
 
     <!-- ═══ PASSENGER LAYER ═══ -->
     <g id="passenger-layer"></g>
-
-    <!-- ═══ TRAINS (larger, more visible) ═══ -->
-    <rect id="train-orange" x="-20" y="-6" width="40" height="12" rx="3"
-      fill="#E8753D" opacity="0"/>
-    <rect id="train-blue" x="-18" y="-6" width="36" height="12" rx="3"
-      fill="#4A90D9" opacity="0"/>
   </svg>
 </div>
 
@@ -96,32 +113,68 @@
   gsap.registerPlugin(MotionPathPlugin);
 
   document.addEventListener('astro:page-load', () => {
+    const container = document.getElementById('mrt-container');
     const svg = document.getElementById('mrt-svg');
     const passengerLayer = document.getElementById('passenger-layer');
-    if (!svg || !passengerLayer) return;
+    if (!svg || !passengerLayer || !container) return;
     const SVG_NS = 'http://www.w3.org/2000/svg';
 
-    // ═══ STATION DATA ═══
-    interface StationData {
-      id: string;
-      x: number;
-      y: number;
-      queue: { el: SVGCircleElement; dest: string }[];
+    /* ═══ FADE-IN after loading screen ═══ */
+    const alreadyEntered = sessionStorage.getItem('wf-entered') === '1';
+    if (alreadyEntered) {
+      container.style.opacity = '1';
+    } else {
+      window.addEventListener('wf:enter', () => {
+        gsap.to(container, { opacity: 1, duration: 0.8, delay: 0.2, ease: 'power2.out' });
+      }, { once: true });
     }
 
+    /* ═══ STATION DATA ═══ */
+    interface StationData {
+      id: string; x: number; y: number;
+      queue: SVGCircleElement[]; dests: string[];
+      qx: number; qy: number;
+    }
+
+    // Queue directions set to AVOID label overlap:
+    // 追蹤: label RIGHT → queue LEFT
+    // 商店: label LEFT → queue RIGHT
+    // 成員: label ABOVE → queue BELOW-RIGHT
+    // 活動: label RIGHT → queue BELOW
+    // 專案: label ABOVE → queue BELOW-RIGHT
     const stationMap: Record<string, StationData> = {
-      store:    { id: 'store',    x: 150, y: 350, queue: [] },
-      artists:  { id: 'artists',  x: 600, y: 350, queue: [] },
-      projects: { id: 'projects', x: 1050, y: 350, queue: [] },
-      socials:  { id: 'socials',  x: 600, y: 120, queue: [] },
-      live:     { id: 'live',     x: 600, y: 600, queue: [] },
+      socials:  { id: 'socials',  x: 280, y: 116,  queue: [], dests: [], qx: -1, qy: 0 },
+      store:    { id: 'store',    x: 280, y: 400,  queue: [], dests: [], qx: 1, qy: 0 },
+      artists:  { id: 'artists',  x: 510, y: 460,  queue: [], dests: [], qx: 1, qy: 1 },
+      live:     { id: 'live',     x: 740, y: 220,  queue: [], dests: [], qx: 0, qy: 1 },
+      projects: { id: 'projects', x: 1000, y: 460, queue: [], dests: [], qx: 1, qy: 1 },
     };
 
     const stationIds = Object.keys(stationMap);
-    const MAX_QUEUE = 5;
+    const MAX_QUEUE = 6;
     const TRAIN_CAPACITY = 4;
+    const P_RADIUS = 5;
 
-    // ═══ PASSENGER SPAWN ═══
+    /* ═══ PASSENGER HELPERS ═══ */
+    function createPassenger(cx: number, cy: number): SVGCircleElement {
+      const c = document.createElementNS(SVG_NS, 'circle');
+      c.setAttribute('cx', String(cx));
+      c.setAttribute('cy', String(cy));
+      c.setAttribute('r', String(P_RADIUS));
+      c.setAttribute('fill', '#FFFFFF');
+      c.setAttribute('opacity', '0');
+      return c;
+    }
+
+    function queuePos(station: StationData, idx: number) {
+      const offset = 30 + idx * 12;
+      const mag = Math.sqrt(station.qx * station.qx + station.qy * station.qy) || 1;
+      return {
+        x: station.x + (station.qx / mag) * offset,
+        y: station.y + (station.qy / mag) * offset,
+      };
+    }
+
     function spawnPassenger() {
       const id = stationIds[Math.floor(Math.random() * stationIds.length)];
       const station = stationMap[id];
@@ -130,136 +183,105 @@
       let dest = id;
       while (dest === id) dest = stationIds[Math.floor(Math.random() * stationIds.length)];
 
-      const circle = document.createElementNS(SVG_NS, 'circle');
-      circle.setAttribute('r', '5');
-      circle.setAttribute('fill', '#E8E4DE');
-      circle.setAttribute('opacity', '0.6');
-
-      const idx = station.queue.length;
-      const cx = station.x + 28 + idx * 14;
-      const cy = station.y;
-      circle.setAttribute('cx', String(cx));
-      circle.setAttribute('cy', String(cy));
-
+      const pos = queuePos(station, station.queue.length);
+      const circle = createPassenger(pos.x, pos.y);
       passengerLayer.appendChild(circle);
-      station.queue.push({ el: circle, dest });
 
+      gsap.to(circle, { attr: { opacity: 0.8 }, duration: 0.4 });
       gsap.to(circle, {
-        attr: { cy: cy + 3 },
-        duration: 1.2 + Math.random() * 0.8,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
+        attr: { cx: pos.x + (station.qx || 0) * 2, cy: pos.y + (station.qy || 0) * 2 },
+        duration: 1.0 + Math.random() * 0.6,
+        ease: 'sine.inOut', yoyo: true, repeat: -1,
+      });
+
+      station.queue.push(circle);
+      station.dests.push(dest);
+    }
+
+    for (let i = 0; i < 12; i++) setTimeout(spawnPassenger, i * 180);
+    const spawnInterval = setInterval(spawnPassenger, 2200);
+
+    function reindexQueue(station: StationData) {
+      station.queue.forEach((c, idx) => {
+        const pos = queuePos(station, idx);
+        gsap.to(c, { attr: { cx: pos.x, cy: pos.y }, duration: 0.3, ease: 'power2.out' });
       });
     }
 
-    for (let i = 0; i < 10; i++) setTimeout(spawnPassenger, i * 200);
-    const spawnInterval = setInterval(spawnPassenger, 2500);
-
-    // ═══ BOARDING ═══
+    /* ═══ BOARDING & DISEMBARKING ═══ */
     function boardPassengers(train: TrainState, stationId: string) {
       const station = stationMap[stationId];
       if (!station) return;
-      const available = TRAIN_CAPACITY - train.passengers.length;
-      const toBoard = Math.min(available, station.queue.length);
-
+      const toBoard = Math.min(TRAIN_CAPACITY - train.passengers.length, station.queue.length);
       for (let i = 0; i < toBoard; i++) {
-        const p = station.queue.shift()!;
-        train.passengers.push({ dest: p.dest, segments: 0 });
-        gsap.killTweensOf(p.el);
-        gsap.to(p.el, {
+        const circle = station.queue.shift()!;
+        const dest = station.dests.shift()!;
+        train.passengers.push(dest);
+        gsap.killTweensOf(circle);
+        gsap.to(circle, {
           attr: { cx: station.x, cy: station.y },
-          opacity: 0,
-          duration: 0.3,
-          delay: i * 0.1,
-          ease: 'power2.in',
-          onComplete: () => p.el.remove(),
-        });
-      }
-
-      station.queue.forEach((p, idx) => {
-        gsap.to(p.el, {
-          attr: { cx: station.x + 28 + idx * 14 },
-          duration: 0.3,
-          ease: 'power2.out',
-        });
-      });
-    }
-
-    // ═══ DISEMBARKING ═══
-    function disembarkPassengers(train: TrainState, stationId: string) {
-      const station = stationMap[stationId];
-      if (!station) return;
-
-      const staying: typeof train.passengers = [];
-      const leaving: typeof train.passengers = [];
-
-      for (const p of train.passengers) {
-        if (p.dest === stationId || p.segments >= 3) {
-          leaving.push(p);
-        } else {
-          p.segments++;
-          staying.push(p);
-        }
-      }
-
-      train.passengers = staying;
-
-      for (let i = 0; i < leaving.length; i++) {
-        const circle = document.createElementNS(SVG_NS, 'circle');
-        circle.setAttribute('r', '5');
-        circle.setAttribute('fill', '#E8E4DE');
-        circle.setAttribute('cx', String(station.x));
-        circle.setAttribute('cy', String(station.y));
-        circle.setAttribute('opacity', '0');
-        passengerLayer.appendChild(circle);
-
-        const offsetX = 20 + Math.random() * 40;
-        const offsetY = (Math.random() - 0.5) * 30;
-
-        gsap.to(circle, {
-          attr: { cx: station.x + offsetX, cy: station.y + offsetY },
-          opacity: 0.5,
-          duration: 0.35,
-          delay: i * 0.12,
-          ease: 'power2.out',
+          duration: 0.25, delay: i * 0.1, ease: 'power2.in',
         });
         gsap.to(circle, {
-          opacity: 0,
-          duration: 0.6,
-          delay: 1.5 + i * 0.15,
+          attr: { r: 0, opacity: 0 },
+          duration: 0.2, delay: 0.25 + i * 0.1, ease: 'power2.in',
           onComplete: () => circle.remove(),
         });
       }
+      reindexQueue(station);
     }
 
-    // ═══ TRAIN STATE ═══
-    interface TrainPassenger { dest: string; segments: number; }
+    function disembarkPassengers(train: TrainState, stationId: string) {
+      const station = stationMap[stationId];
+      if (!station) return;
+      const staying: string[] = [];
+      const leaving: string[] = [];
+      for (const dest of train.passengers) {
+        if (dest === stationId) leaving.push(dest);
+        else staying.push(dest);
+      }
+      train.passengers = staying;
+
+      for (let i = 0; i < leaving.length; i++) {
+        const angle = (Math.random() - 0.5) * Math.PI * 1.2;
+        const dist = 30 + Math.random() * 40;
+        const circle = createPassenger(station.x, station.y);
+        circle.setAttribute('r', '0');
+        passengerLayer.appendChild(circle);
+        gsap.to(circle, {
+          attr: {
+            cx: station.x + Math.cos(angle) * dist,
+            cy: station.y + Math.sin(angle) * dist,
+            r: P_RADIUS, opacity: 0.6,
+          },
+          duration: 0.4, delay: i * 0.08, ease: 'back.out(1.5)',
+        });
+        gsap.to(circle, {
+          attr: { opacity: 0, r: 0 },
+          duration: 0.5, delay: 1.5 + i * 0.08,
+          ease: 'power2.in', onComplete: () => circle.remove(),
+        });
+      }
+    }
+
+    /* ═══ TRAIN STATE & MOVEMENT ═══ */
     interface TrainState {
-      el: HTMLElement;
-      trackId: string;
-      passengers: TrainPassenger[];
-      stops: number[];
-      stationIds: string[];
-      currentStop: number;
-      direction: 1 | -1;
-      baseOpacity: number;
+      el: HTMLElement; trackId: string; passengers: string[];
+      stops: number[]; stationIds: string[];
+      currentStop: number; direction: 1 | -1;
     }
 
     function advanceTrain(train: TrainState) {
       const next = train.currentStop + train.direction;
       if (next < 0 || next >= train.stops.length) {
         train.direction *= -1 as 1 | -1;
-        setTimeout(() => advanceTrain(train), 600);
+        setTimeout(() => advanceTrain(train), 500);
         return;
       }
-
       const trackSel = `#${train.trackId}`;
       const dist = Math.abs(train.stops[next] - train.stops[train.currentStop]);
-      const duration = Math.max(dist * 8, 0.6);
-
       gsap.to(train.el, {
-        duration,
+        duration: Math.max(dist * 7, 0.8),
         motionPath: {
           path: trackSel, align: trackSel,
           alignOrigin: [0.5, 0.5], autoRotate: true,
@@ -268,69 +290,83 @@
         ease: 'power2.inOut',
         onComplete: () => {
           train.currentStop = next;
-          dwell(train, train.stationIds[next]);
+          const sid = train.stationIds[next];
+          if (sid) dwell(train, sid);
+          else setTimeout(() => advanceTrain(train), 100);
         },
       });
     }
 
     function dwell(train: TrainState, stationId: string) {
       disembarkPassengers(train, stationId);
-      setTimeout(() => boardPassengers(train, stationId), 400);
-      setTimeout(() => advanceTrain(train), 1200);
+      setTimeout(() => {
+        boardPassengers(train, stationId);
+        setTimeout(() => advanceTrain(train), 900);
+      }, 500);
     }
 
-    function initTrain(train: TrainState, startDelay: number) {
+    function initTrain(train: TrainState, delay: number) {
       const trackSel = `#${train.trackId}`;
       if (!document.querySelector(trackSel)) return;
-
       gsap.set(train.el, {
         motionPath: { path: trackSel, align: trackSel,
-          alignOrigin: [0.5, 0.5], autoRotate: true, start: 0, end: 0 },
+          alignOrigin: [0.5, 0.5], autoRotate: true,
+          start: train.stops[0], end: train.stops[0] },
       });
-      gsap.to(train.el, { opacity: train.baseOpacity, duration: 0.6, delay: startDelay / 1000 });
-      setTimeout(() => advanceTrain(train), startDelay);
+      gsap.to(train.el, { opacity: 1, duration: 0.6, delay: delay / 1000 });
+      setTimeout(() => advanceTrain(train), delay);
     }
 
-    // ═══ CONFIGURE TRAINS ═══
-
-    // Orange Line: STORE → ARTISTS → PROJECTS (straight horizontal)
-    const trainOrange: TrainState = {
-      el: document.getElementById('train-orange')!,
-      trackId: 'track-orange',
-      passengers: [],
-      stops: [0, 0.28, 0.50, 0.72, 1.0],
-      stationIds: ['store', '', 'artists', '', 'projects'],
-      currentStop: 0, direction: 1, baseOpacity: 0.9,
-    };
-
-    // Blue Line: SOCIALS → ARTISTS → LIVE (straight vertical)
+    /* ═══ TRAIN CONFIGS ═══ */
     const trainBlue: TrainState = {
       el: document.getElementById('train-blue')!,
-      trackId: 'track-blue',
-      passengers: [],
-      stops: [0, 0.21, 0.48, 0.75, 1.0],
-      stationIds: ['socials', '', 'artists', '', 'live'],
-      currentStop: 0, direction: 1, baseOpacity: 0.9,
+      trackId: 'track-blue', passengers: [],
+      stops: [0.056, 0.498, 0.922],
+      stationIds: ['socials', 'store', 'artists'],
+      currentStop: 0, direction: 1,
     };
 
-    initTrain(trainOrange, 500);
-    initTrain(trainBlue, 2000);
+    const trainYellow: TrainState = {
+      el: document.getElementById('train-yellow')!,
+      trackId: 'track-yellow', passengers: [],
+      stops: [0.092, 0.926],
+      stationIds: ['artists', 'live'],
+      currentStop: 0, direction: 1,
+    };
 
-    // ═══ STATION HOVER — typewriter label reveal ═══
-    const stationEls = document.querySelectorAll('.mrt-station');
-    stationEls.forEach((el) => {
-      const square = el.querySelector('.station-square') as SVGRectElement;
+    const trainRed: TrainState = {
+      el: document.getElementById('train-red')!,
+      trackId: 'track-red', passengers: [],
+      stops: [0.071, 0.929],
+      stationIds: ['live', 'projects'],
+      currentStop: 0, direction: 1,
+    };
+
+    initTrain(trainBlue, 600);
+    initTrain(trainYellow, 2000);
+    initTrain(trainRed, 3500);
+
+    /* ═══ STATION HOVER — scale (svgOrigin) + label typewriter ═══ */
+    document.querySelectorAll('.mrt-station').forEach((el) => {
+      const shape = el.querySelector('.station-shape') as SVGElement;
       const label = el.querySelector('.station-label') as SVGTextElement;
-      if (!square || !label) return;
+      if (!shape || !label) return;
 
       const fullText = label.textContent || '';
-      let hoverTween: gsap.core.Tween | null = null;
       let typeInterval: ReturnType<typeof setInterval> | null = null;
+
+      // Pre-compute center for svgOrigin
+      const bbox = shape.getBBox();
+      const cx = bbox.x + bbox.width / 2;
+      const cy = bbox.y + bbox.height / 2;
 
       el.addEventListener('mouseenter', () => {
         if ((window as any).playBlip) (window as any).playBlip();
-        hoverTween = gsap.to(square, { opacity: 1, duration: 0.2, ease: 'power2.out' });
-
+        gsap.to(shape, {
+          scale: 1.2,
+          svgOrigin: `${cx} ${cy}`,
+          duration: 0.2, ease: 'power2.out',
+        });
         let charIdx = 0;
         label.textContent = '';
         gsap.set(label, { opacity: 1 });
@@ -338,13 +374,12 @@
           charIdx++;
           label.textContent = fullText.slice(0, charIdx);
           if (charIdx >= fullText.length && typeInterval) { clearInterval(typeInterval); typeInterval = null; }
-        }, 40);
+        }, 50);
       });
 
       el.addEventListener('mouseleave', () => {
         if (typeInterval) { clearInterval(typeInterval); typeInterval = null; }
-        if (hoverTween) hoverTween.kill();
-        gsap.to(square, { opacity: 0.55, duration: 0.3, ease: 'power2.in' });
+        gsap.to(shape, { scale: 1, svgOrigin: `${cx} ${cy}`, duration: 0.3, ease: 'power2.in' });
         gsap.to(label, { opacity: 0, duration: 0.2, ease: 'power2.in',
           onComplete: () => { label.textContent = fullText; } });
       });
@@ -361,7 +396,6 @@
       (el as HTMLElement).style.cursor = 'pointer';
     });
 
-    // ═══ CLEANUP ═══
     document.addEventListener('astro:before-swap', () => { clearInterval(spawnInterval); }, { once: true });
   });
 </script>
