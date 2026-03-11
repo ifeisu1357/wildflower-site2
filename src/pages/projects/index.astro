@@ -1,13 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getProjects } from '../../lib/data';
 
 const now = Date.now();
-const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const projects = getProjects();
 const projectsWithState = projects.map((project) => {
-  const hasReleaseDate = !!project.data.releaseDate;
-  const releaseTime = hasReleaseDate ? new Date(project.data.releaseDate!).getTime() : 0;
-  const isReleased = project.data.published && (!hasReleaseDate || releaseTime <= now);
+  const hasReleaseDate = !!project.releaseDate;
+  const releaseTime = hasReleaseDate ? new Date(project.releaseDate!).getTime() : 0;
+  const isReleased = project.published && (!hasReleaseDate || releaseTime <= now);
   return { project, isReleased, hasReleaseDate };
 });
 ---
@@ -16,18 +16,18 @@ const projectsWithState = projects.map((project) => {
   <main class="min-h-screen flex items-center justify-center px-5 md:px-10 py-24">
     <div class="project-grid">
       {projectsWithState.map(({ project, isReleased, hasReleaseDate }) => (
-        <div class="project-cell" data-title={project.data.title} data-artist={project.data.artist} data-year={project.data.year}>
+        <div class="project-cell" data-title={project.title} data-artist={project.artist} data-year={project.year}>
           <img
-            src={project.data.cover}
-            alt={project.data.title}
+            src={project.cover}
+            alt={project.title}
             class="project-img"
             loading="lazy"
           />
           <div class="project-overlay">
-            <span class="overlay-title">{project.data.title}</span>
-            <span class="overlay-artist">{project.data.artist}</span>
+            <span class="overlay-title">{project.title}</span>
+            <span class="overlay-artist">{project.artist}</span>
             {!isReleased && hasReleaseDate && (
-              <span class="overlay-countdown" data-target={project.data.releaseDate}></span>
+              <span class="overlay-countdown" data-target={project.releaseDate}></span>
             )}
           </div>
         </div>
@@ -44,18 +44,19 @@ const projectsWithState = projects.map((project) => {
 <style>
   .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 140px);
-    gap: 3px;
-    max-width: 600px;
+    grid-template-columns: repeat(auto-fill, 220px);
+    gap: 4px;
+    max-width: 920px;
     justify-content: center;
   }
 
   .project-cell {
     position: relative;
-    width: 140px;
-    height: 140px;
+    width: 220px;
+    height: 220px;
     overflow: hidden;
     background: #18181b;
+    cursor: pointer;
   }
 
   .project-img {
@@ -75,17 +76,19 @@ const projectsWithState = projects.map((project) => {
     background: rgba(9, 9, 11, 0.82);
     opacity: 0;
     transition: opacity 0.3s ease;
-    padding: 0.5rem;
+    padding: 0.75rem;
+    pointer-events: none;
   }
 
   .project-cell:hover .project-overlay {
     opacity: 1;
+    pointer-events: auto;
   }
 
   .overlay-title {
     font-family: 'Noto Serif TC', serif;
     font-weight: 700;
-    font-size: 12px;
+    font-size: 16px;
     color: #E8E4DE;
     letter-spacing: 0.04em;
     text-align: center;
@@ -95,7 +98,7 @@ const projectsWithState = projects.map((project) => {
   .overlay-artist {
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 300;
-    font-size: 9px;
+    font-size: 12px;
     color: #71717a;
     letter-spacing: 0.08em;
     margin-top: 0.25rem;
@@ -104,7 +107,7 @@ const projectsWithState = projects.map((project) => {
   .overlay-countdown {
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 400;
-    font-size: 9px;
+    font-size: 12px;
     color: #D4853A;
     letter-spacing: 0.06em;
     margin-top: 0.35rem;
@@ -119,14 +122,31 @@ const projectsWithState = projects.map((project) => {
   .cs-text {
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 300;
-    font-size: 8px;
+    font-size: 11px;
     color: #3f3f46;
     letter-spacing: 0.15em;
   }
 
   @media (max-width: 640px) {
     .project-grid {
-      grid-template-columns: repeat(2, 140px);
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 340px;
+      margin: 0 auto;
+    }
+
+    .project-cell {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+    }
+
+    .overlay-title {
+      font-size: 12px;
+    }
+
+    .overlay-artist,
+    .overlay-countdown {
+      font-size: 9px;
     }
   }
 </style>

@@ -1,16 +1,16 @@
 ---
-// Header: WILDFLOWER — Unbounded 900, matches original wildflower.html nav-logo
-// Hidden on homepage (/) since the map is the landing page
 const isHome = Astro.url.pathname === '/';
 ---
 
-{!isHome && (
-  <header class="fixed top-0 left-0 w-full z-[9999]" style="padding: 24px 60px;">
-    <a href="/" class="topper-link">WILDFLOWER</a>
-  </header>
-)}
+<header class="fixed top-0 left-0 w-full z-[9999] topper-header">
+  <a href="/" class:list={["topper-link", { "topper-home": isHome }]}>WILDFLOWER</a>
+</header>
 
 <style>
+  .topper-header {
+    padding: 24px 60px;
+  }
+
   .topper-link {
     font-family: 'Unbounded', sans-serif;
     font-weight: 900;
@@ -23,5 +23,24 @@ const isHome = Astro.url.pathname === '/';
 
   .topper-link:hover {
     opacity: 0.5;
+  }
+
+  .topper-home {
+    font-size: 14px;
+    color: #FFFFFF;
+  }
+
+  @media (max-width: 640px) {
+    .topper-header {
+      padding: 16px 20px;
+    }
+
+    .topper-link {
+      font-size: 9px;
+    }
+
+    .topper-home {
+      font-size: 11px;
+    }
   }
 </style>

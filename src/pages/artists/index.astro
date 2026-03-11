@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getArtists } from '../../lib/data';
 
-const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b.data.order);
+const artists = getArtists();
 ---
 
 <BaseLayout title="ARTISTS — WILDFLOWER">
@@ -11,15 +11,15 @@ const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b
       {artists.map((artist) => (
         <a href={`/artists/${artist.slug}`} class="artist-card">
           <div class="artist-photo-box">
-            {artist.data.photo ? (
-              <img src={artist.data.photo} alt={artist.data.name} class="artist-thumb" />
+            {artist.photo ? (
+              <img src={artist.photo} alt={artist.name} class="artist-thumb" />
             ) : (
               <div class="artist-thumb-placeholder"></div>
             )}
           </div>
           <div class="artist-meta">
-            <span class="artist-name">{artist.data.name}</span>
-            <span class="artist-tag">{artist.data.tag}</span>
+            <span class="artist-name">{artist.name}</span>
+            <span class="artist-tag">{artist.tag}</span>
           </div>
         </a>
       ))}
@@ -101,8 +101,9 @@ const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b
     .artist-row {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-      max-width: 340px;
+      gap: 1rem;
+      max-width: 300px;
+      padding-top: 2rem;
     }
 
     .artist-card {
@@ -113,6 +114,14 @@ const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b
       width: 100%;
       height: auto;
       aspect-ratio: 1;
+    }
+
+    .artist-name {
+      font-size: 11px;
+    }
+
+    .artist-tag {
+      font-size: 8px;
     }
   }
 </style>

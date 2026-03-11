@@ -1,0 +1,44 @@
+# ═══ WILDFLOWER ARTISTS ═══
+# To add a new artist: copy a block below and fill in the fields
+# slug: used in URL (/artists/slug) and for the profile photo filename
+# photo: path to image in /public/images/artists/
+# To change profile picture: put image at /public/images/artists/{slug}.jpg and update photo field
+
+- slug: ifei
+  name: "蘇裔非"
+  tag: "Producer · Artist"
+  photo: "/images/artists/syifei.jpg"
+  order: 1
+  bio: ""
+  links:
+    instagram: "https://www.instagram.com/ifeisu_/"
+    appleMusic: ""
+    spotify: ""
+    website: "ifeisu.co"
+
+- slug: mgs
+  name: "MGS"
+  tag: "Artist"
+  photo: "/images/artists/mgs.jpg"
+  order: 2
+  bio: "WILDFLOWER 旗下藝術家。"
+  links:
+    instagram: ""
+
+- slug: bafen
+  name: "百分"
+  tag: "Artist"
+  photo: "/images/artists/bafen.jpg"
+  order: 3
+  bio: "WILDFLOWER 旗下藝術家。"
+  links:
+    instagram: ""
+
+- slug: mufan
+  name: "慕凡"
+  tag: "Artist"
+  photo: "/images/artists/mufan.jpg"
+  order: 4
+  bio: "WILDFLOWER 旗下藝術家。"
+  links:
+    instagram: ""

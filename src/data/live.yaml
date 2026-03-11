@@ -1,0 +1,26 @@
+# ═══ WILDFLOWER LIVE EVENTS ═══
+# To add a new event: copy a block below and fill in the fields
+
+- slug: vol1
+  date: "2026-04-18"
+  event: "WILDFLOWER LIVE VOL.1"
+  venue: "Revolver"
+  city: "Taipei"
+  ticketUrl: ""
+  order: 1
+
+- slug: release-show
+  date: "2026-07-12"
+  event: "少年殺人事件 Release Show"
+  venue: "Legacy Taipei"
+  city: "Taipei"
+  ticketUrl: ""
+  order: 2
+
+- slug: wakeup
+  date: "2026-10-03"
+  event: "Wake Up Festival"
+  venue: "Jiali"
+  city: "Tainan"
+  ticketUrl: ""
+  order: 3

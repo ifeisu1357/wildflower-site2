@@ -2,7 +2,6 @@
 import '../styles/global.css';
 import Topper from '../components/Topper.astro';
 import CustomCursor from '../components/CustomCursor.astro';
-import AudioManager from '../components/AudioManager.astro';
 import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
@@ -25,7 +24,6 @@ const { title = 'WILDFLOWER' } = Astro.props;
   <body>
     <Topper />
     <CustomCursor />
-    <AudioManager />
     <slot />
   </body>
 </html>
