@@ -1,7 +1,7 @@
 ---
 name: "慕凡"
 tag: "Artist"
-photo: "/images/artists/mufan.jpg"
+photo: "/images/artist/mufan.jpg"
 order: 4
 links:
   instagram: ""

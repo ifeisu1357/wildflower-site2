@@ -1,7 +1,7 @@
 ---
 name: "MGS"
 tag: "Artist"
-photo: "/images/artists/mgs.jpg"
+photo: "/images/artist/mgs.jpg"
 order: 2
 links:
   instagram: ""

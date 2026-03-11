@@ -1,7 +1,7 @@
 ---
 name: "蘇裔非"
 tag: "Producer · Artist"
-photo: "/images/artists/syifei.jpg"
+photo: "/images/artist/syifei.jpg"
 order: 1
 links:
   instagram: "https://www.instagram.com/ifeisu_/"

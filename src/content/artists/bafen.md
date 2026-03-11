@@ -1,7 +1,7 @@
 ---
 name: "百分"
 tag: "Artist"
-photo: "/images/artists/bafen.jpg"
+photo: "/images/artist/bafen.jpg"
 order: 3
 links:
   instagram: ""
