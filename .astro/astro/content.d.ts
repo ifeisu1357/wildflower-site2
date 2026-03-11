@@ -146,28 +146,28 @@ declare module 'astro:content' {
   slug: "bafen";
   body: string;
   collection: "artists";
-  data: InferEntrySchema<"artists">
+  data: any
 } & { render(): Render[".md"] };
 "mgs.md": {
 	id: "mgs.md";
   slug: "mgs";
   body: string;
   collection: "artists";
-  data: InferEntrySchema<"artists">
+  data: any
 } & { render(): Render[".md"] };
 "mufan.md": {
 	id: "mufan.md";
   slug: "mufan";
   body: string;
   collection: "artists";
-  data: InferEntrySchema<"artists">
+  data: any
 } & { render(): Render[".md"] };
 "syifei.md": {
 	id: "syifei.md";
   slug: "syifei";
   body: string;
   collection: "artists";
-  data: InferEntrySchema<"artists">
+  data: any
 } & { render(): Render[".md"] };
 };
 "live": {
@@ -176,21 +176,21 @@ declare module 'astro:content' {
   slug: "fall-festival";
   body: string;
   collection: "live";
-  data: InferEntrySchema<"live">
+  data: any
 } & { render(): Render[".md"] };
 "sample-events.md": {
 	id: "sample-events.md";
   slug: "sample-events";
   body: string;
   collection: "live";
-  data: InferEntrySchema<"live">
+  data: any
 } & { render(): Render[".md"] };
 "summer-show.md": {
 	id: "summer-show.md";
   slug: "summer-show";
   body: string;
   collection: "live";
-  data: InferEntrySchema<"live">
+  data: any
 } & { render(): Render[".md"] };
 };
 "projects": {
@@ -199,7 +199,7 @@ declare module 'astro:content' {
   slug: "shaonian";
   body: string;
   collection: "projects";
-  data: InferEntrySchema<"projects">
+  data: any
 } & { render(): Render[".md"] };
 };
 

@@ -1,0 +1,74 @@
+# ═══════════════════════════════════════════════════
+#  WILDFLOWER — 藝術家 ARTISTS
+# ═══════════════════════════════════════════════════
+#
+#  ✏️  HOW TO ADD A NEW ARTIST:
+#     1. Copy any block below (from "- slug:" to the last link)
+#     2. Paste it at the bottom
+#     3. Fill in the fields
+#     4. Put the artist photo at:  public/images/artists/{slug}.jpg
+#     5. Rebuild the site (npm run build) or dev server auto-reloads
+#
+#  📋 FIELD REFERENCE:
+#     slug       → URL path (/artists/slug) — lowercase, no spaces
+#     name       → Display name (Chinese/English)
+#     tag        → Role label shown under name (e.g. "Producer · Artist")
+#     photo      → Path to photo starting with /images/artists/
+#     order      → Sort order (1 = first)
+#     bio        → Short bio text (leave "" if empty)
+#     links      → Social links (leave "" if not available)
+#       instagram, appleMusic, spotify, website
+#
+# ═══════════════════════════════════════════════════
+
+- slug: ifei
+  name: "蘇裔非"
+  tag: "Producer · Artist"
+  photo: "/images/artists/syifei.jpg"
+  order: 1
+  bio: "測試測試123123"
+  links:
+    instagram: "https://www.instagram.com/ifeisu_/"
+    appleMusic: ""
+    spotify: ""
+    website: "ifeisu.co"
+
+- slug: mgs
+  name: "MGS"
+  tag: "Artist"
+  photo: "/images/artists/mgs.jpg"
+  order: 2
+  bio: "WILDFLOWER 旗下藝術家。"
+  links:
+    instagram: ""
+
+- slug: bafen
+  name: "百分"
+  tag: "Artist"
+  photo: "/images/artists/bafen.jpg"
+  order: 3
+  bio: "WILDFLOWER 旗下藝術家。"
+  links:
+    instagram: ""
+
+- slug: mufan
+  name: "慕凡"
+  tag: "Artist"
+  photo: "/images/artists/mufan.jpg"
+  order: 4
+  bio: "WILDFLOWER 旗下藝術家。"
+  links:
+    instagram: ""
+
+# ─── ADD NEW ARTIST BELOW ───
+# - slug: new-artist
+#   name: "新藝術家"
+#   tag: "Artist"
+#   photo: "/images/artists/new-artist.jpg"
+#   order: 5
+#   bio: ""
+#   links:
+#     instagram: ""
+#     appleMusic: ""
+#     spotify: ""
+#     website: ""

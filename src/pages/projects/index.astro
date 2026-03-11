@@ -13,7 +13,7 @@ const projectsWithState = projects.map((project) => {
 ---
 
 <BaseLayout title="PROJECTS — WILDFLOWER">
-  <main class="min-h-screen flex items-center justify-center px-5 md:px-10 py-24">
+  <main class="min-h-screen flex items-center justify-center px-5 md:px-10 pb-24 md:pb-0 pt-4 md:pt-24">
     <div class="project-grid">
       {projectsWithState.map(({ project, isReleased, hasReleaseDate }) => (
         <div class="project-cell" data-title={project.title} data-artist={project.artist} data-year={project.year}>

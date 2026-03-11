@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import yaml from 'js-yaml';
 import { join } from 'node:path';
 
-const dataDir = join(process.cwd(), 'src', 'data');
+const dataDir = join(process.cwd(), 'data');
 
 export interface Artist {
   slug: string;

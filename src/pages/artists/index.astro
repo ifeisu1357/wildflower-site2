@@ -6,7 +6,7 @@ const artists = getArtists();
 ---
 
 <BaseLayout title="ARTISTS — WILDFLOWER">
-  <main class="min-h-screen flex items-center justify-center px-5 md:px-10">
+  <main class="min-h-screen flex items-center justify-center px-5 md:px-10 pb-24 md:pb-0">
     <div class="artist-row">
       {artists.map((artist) => (
         <a href={`/artists/${artist.slug}`} class="artist-card">
@@ -103,7 +103,8 @@ const artists = getArtists();
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
       max-width: 300px;
-      padding-top: 2rem;
+      margin: 0 auto;
+      padding-top: 0;
     }
 
     .artist-card {

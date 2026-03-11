@@ -1,0 +1,53 @@
+# ═══════════════════════════════════════════════════
+#  WILDFLOWER — 活動 LIVE EVENTS
+# ═══════════════════════════════════════════════════
+#
+#  ✏️  HOW TO ADD A NEW EVENT:
+#     1. Copy any block below (from "- slug:" to the last field)
+#     2. Paste it at the bottom
+#     3. Fill in the fields
+#     4. Rebuild the site (npm run build) or dev server auto-reloads
+#
+#  📋 FIELD REFERENCE:
+#     slug      → URL-safe identifier — lowercase, no spaces
+#     date      → Event date "YYYY-MM-DD"
+#     event     → Event name / title
+#     venue     → Venue name (leave "" if TBD)
+#     city      → City name (leave "" if TBD)
+#     ticketUrl → Full URL to ticket page (leave "" if no tickets yet)
+#     order     → Sort order (1 = first)
+#
+# ═══════════════════════════════════════════════════
+
+- slug: vol1
+  date: "2026-04-18"
+  event: "WILDFLOWER LIVE VOL.1"
+  venue: "Revolver"
+  city: "Taipei"
+  ticketUrl: ""
+  order: 1
+
+- slug: release-show
+  date: "2026-07-12"
+  event: "少年殺人事件 Release Show"
+  venue: "Legacy Taipei"
+  city: "Taipei"
+  ticketUrl: ""
+  order: 2
+
+- slug: wakeup
+  date: "2026-10-03"
+  event: "Wake Up Festival"
+  venue: "Jiali"
+  city: "Tainan"
+  ticketUrl: ""
+  order: 3
+
+# ─── ADD NEW EVENT BELOW ───
+# - slug: new-event
+#   date: "2026-12-01"
+#   event: "新活動"
+#   venue: ""
+#   city: ""
+#   ticketUrl: ""
+#   order: 4
