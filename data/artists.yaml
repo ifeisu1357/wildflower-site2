@@ -24,7 +24,7 @@
 - slug: ifei
   name: "蘇裔非"
   tag: "Producer · Artist"
-  photo: "public/images/artist/syifei.jpg"
+  photo: "/images/artist/syifei.jpg"
   order: 1
   bio: "測試測試123123"
   links:
@@ -36,7 +36,7 @@
 - slug: mgs
   name: "MGS"
   tag: "Artist"
-  photo: "public/images/artist/mgs.jpg"
+  photo: "/images/artist/mgs.jpg"
   order: 2
   bio: "WILDFLOWER 旗下藝術家。"
   links:
@@ -45,7 +45,7 @@
 - slug: bafen
   name: "百分"
   tag: "Artist"
-  photo: "public/images/artist/bafen.jpg"
+  photo: "/images/artist/bafen.jpg"
   order: 3
   bio: "WILDFLOWER 旗下藝術家。"
   links:
@@ -54,7 +54,7 @@
 - slug: mufan
   name: "慕凡"
   tag: "Artist"
-  photo: "public/images/artist/mufan.jpg"
+  photo: "/images/artist/mufan.jpg"
   order: 4
   bio: "WILDFLOWER 旗下藝術家。"
   links:
@@ -64,7 +64,7 @@
 # - slug: new-artist
 #   name: "新藝術家"
 #   tag: "Artist"
-#   photo: "public/images/artist/new-artist.jpg"
+#   photo: "/images/artist/new-artist.jpg"
 #   order: 5
 #   bio: ""
 #   links:
