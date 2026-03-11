@@ -4,17 +4,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        'wf-black': '#0a0a0a',
-        'wf-dark': '#111111',
-        'wf-gray': '#1a1a1a',
-        'wf-mid': '#2a2a2a',
-        'wf-light': '#e0e0e0',
-        'wf-white': '#f0f0f0',
+        'wf-black': '#09090b',
+        'wf-surface': '#111113',
+        'wf-muted': '#1c1c1f',
+        'wf-border': '#27272a',
+        'wf-text': '#D4D0C8',
+        'wf-dim': '#71717a',
+        'wf-copper': '#C27853',
+        'wf-bone': '#E8E4DE',
+        'wf-slate': '#6B7B8D',
       },
       fontFamily: {
-        sans: ['"Noto Sans TC"', '"Helvetica Neue"', 'sans-serif'],
-        display: ['"Noto Sans TC"', 'sans-serif'],
-        mono: ['"Space Mono"', 'Courier New', 'monospace'],
+        mono: ['"IBM Plex Mono"', 'Courier New', 'monospace'],
       },
     },
   },

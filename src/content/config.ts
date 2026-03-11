@@ -6,14 +6,14 @@ const artists = defineCollection({
     name: z.string(),
     nameEn: z.string().optional(),
     tag: z.string(),
-    photo: z.string().optional(),
-    order: z.number().default(0),
+    photo: z.string().default(''),
+    order: z.number().default(99),
     links: z.object({
       instagram: z.string().optional(),
       appleMusic: z.string().optional(),
       spotify: z.string().optional(),
       website: z.string().optional(),
-    }).default({}),
+    }).optional(),
   }),
 });
 
@@ -28,8 +28,20 @@ const projects = defineCollection({
     releaseDate: z.string().optional(),
     published: z.boolean().default(true),
     videoId: z.string().optional(),
-    order: z.number().default(0),
+    order: z.number().default(99),
   }),
 });
 
-export const collections = { artists, projects };
+const live = defineCollection({
+  type: 'content',
+  schema: z.object({
+    date: z.string(),
+    event: z.string(),
+    venue: z.string().optional(),
+    city: z.string().optional(),
+    ticketUrl: z.string().optional(),
+    order: z.number().default(99),
+  }),
+});
+
+export const collections = { artists, projects, live };

@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
   const artists = await getCollection('artists');
@@ -10,66 +10,115 @@ export async function getStaticPaths() {
   }));
 }
 
+interface Props {
+  artist: CollectionEntry<'artists'>;
+}
+
 const { artist } = Astro.props;
 const { Content } = await artist.render();
-const { name, tag, photo, links } = artist.data;
+const displayName = artist.data.nameEn || artist.data.name;
+const photo = artist.data.photo;
+const links = artist.data.links;
 ---
 
-<BaseLayout title={`${name} — WILDFLOWER野花`} description={`${name} — ${tag}`}>
-  <!-- Full-screen hero -->
-  <section class="relative min-h-screen flex items-end">
-    <!-- Background photo -->
-    {photo && (
-      <div class="absolute inset-0">
-        <img src={photo} alt={name} class="w-full h-full object-cover opacity-25" />
-        <div class="absolute inset-0 bg-gradient-to-t from-wf-black via-wf-black/60 to-transparent"></div>
-      </div>
-    )}
+<BaseLayout title={`${displayName} — WILDFLOWER`}>
+  <!-- Hero -->
+  {photo && (
+    <div class="artist-hero" style={`background-image: url(${photo})`}></div>
+  )}
 
-    <!-- Back button -->
-    <a href="/artists" class="fixed top-6 left-6 md:left-12 z-20 font-mono text-[10px] tracking-[0.3em] text-wf-light/40 hover:text-wf-light/70 transition-colors duration-500 uppercase" data-clickable>
-      ←
-    </a>
+  <main class="min-h-screen pt-32 pb-20 px-5 md:px-10 relative z-10">
+    <div class="max-w-3xl">
+      <h1 class="artist-title">{displayName}</h1>
+      {artist.data.name !== displayName && (
+        <p class="artist-subtitle">{artist.data.name}</p>
+      )}
+      <p class="artist-role">{artist.data.tag}</p>
 
-    <!-- Hero content -->
-    <div class="relative z-10 w-full px-6 md:px-12 lg:px-24 pb-12 md:pb-20">
-      <h1 class="font-display text-[4rem] md:text-[8rem] lg:text-[12rem] font-black leading-[0.82] text-wf-white tracking-tight mb-4">
-        {name}
-      </h1>
-      <p class="font-mono text-xs md:text-sm tracking-[0.3em] text-wf-light/40 uppercase mb-6">
-        {tag}
-      </p>
+      {links && (
+        <div class="artist-links">
+          {links.instagram && <a href={links.instagram} target="_blank" rel="noopener">Instagram</a>}
+          {links.spotify && <a href={links.spotify} target="_blank" rel="noopener">Spotify</a>}
+          {links.appleMusic && <a href={links.appleMusic} target="_blank" rel="noopener">Apple Music</a>}
+          {links.website && <a href={links.website} target="_blank" rel="noopener">Website</a>}
+        </div>
+      )}
 
-      <!-- Links: Space Mono, minimal -->
-      <div class="flex gap-6">
-        {links.instagram && (
-          <a href={links.instagram} target="_blank" rel="noopener" class="font-mono text-[10px] tracking-[0.2em] text-wf-light/35 hover:text-wf-white transition-colors duration-500 uppercase" data-clickable>
-            IG
-          </a>
-        )}
-        {links.spotify && (
-          <a href={links.spotify} target="_blank" rel="noopener" class="font-mono text-[10px] tracking-[0.2em] text-wf-light/35 hover:text-wf-white transition-colors duration-500 uppercase" data-clickable>
-            Spotify
-          </a>
-        )}
-        {links.appleMusic && (
-          <a href={links.appleMusic} target="_blank" rel="noopener" class="font-mono text-[10px] tracking-[0.2em] text-wf-light/35 hover:text-wf-white transition-colors duration-500 uppercase" data-clickable>
-            Apple Music
-          </a>
-        )}
-        {links.website && (
-          <a href={links.website} target="_blank" rel="noopener" class="font-mono text-[10px] tracking-[0.2em] text-wf-light/35 hover:text-wf-white transition-colors duration-500 uppercase" data-clickable>
-            Web
-          </a>
-        )}
+      <div class="artist-body">
+        <Content />
       </div>
     </div>
-  </section>
-
-  <!-- Bio: scrolls below the fold -->
-  <section class="px-6 md:px-12 lg:px-24 py-16 md:py-24 max-w-3xl">
-    <div class="prose prose-invert prose-sm max-w-none font-display text-wf-light/50 leading-relaxed text-sm md:text-base">
-      <Content />
-    </div>
-  </section>
+  </main>
 </BaseLayout>
+
+<style>
+  .artist-hero {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.2;
+    filter: grayscale(0.5);
+  }
+
+  .artist-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: clamp(3rem, 8vw, 8rem);
+    line-height: 0.95;
+    color: #D4D0C8;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .artist-subtitle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 300;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    color: #71717a;
+    margin-bottom: 1rem;
+  }
+
+  .artist-role {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 300;
+    font-size: 11px;
+    color: #71717a;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .artist-links {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .artist-links a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400;
+    font-size: 11px;
+    color: #D4D0C8;
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    opacity: 0.5;
+  }
+
+  .artist-links a:hover {
+    opacity: 1;
+  }
+
+  .artist-body {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #71717a;
+  }
+
+  .artist-body :global(p) {
+    margin-bottom: 1rem;
+  }
+</style>

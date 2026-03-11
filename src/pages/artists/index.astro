@@ -1,30 +1,113 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import ArtistCard from '../../components/ArtistCard.astro';
 import { getCollection } from 'astro:content';
 
-const artists = (await getCollection('artists')).sort(
-  (a, b) => (a.data.order || 0) - (b.data.order || 0)
-);
+const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout title="成員 — WILDFLOWER野花" description="WILDFLOWER野花 label members">
-  <div class="min-h-screen pt-12 pb-20 px-6 md:px-12 lg:px-24 max-w-[1400px] mx-auto">
-    <!-- Back button: Space Mono, minimal -->
-    <a href="/" class="inline-block font-mono text-[10px] tracking-[0.3em] text-wf-light/30 hover:text-wf-light/60 transition-colors duration-500 mb-16 md:mb-24 uppercase" data-clickable>
-      ← Back
-    </a>
-
-    <!-- Editorial artist stack: massive names, negative space -->
-    <div class="space-y-2 md:space-y-4">
-      {artists.map((artist) => (
-        <ArtistCard
-          slug={artist.slug}
-          name={artist.data.name}
-          tag={artist.data.tag}
-          photo={artist.data.photo}
-        />
-      ))}
+<BaseLayout title="ARTISTS — WILDFLOWER">
+  <main class="min-h-screen pt-24 pb-16 px-5 md:px-10">
+    <div class="artist-list">
+      {artists.map((artist) => {
+        const displayName = artist.data.nameEn || artist.data.name;
+        const photo = artist.data.photo;
+        return (
+          <a
+            href={`/artists/${artist.slug}`}
+            class="artist-row"
+            data-photo={photo || ''}
+          >
+            <span class="artist-name">{displayName}</span>
+            <span class="artist-tag">{artist.data.tag}</span>
+          </a>
+        );
+      })}
     </div>
-  </div>
+
+    <!-- Fullscreen photo backdrop -->
+    <div class="artist-backdrop" id="artist-backdrop"></div>
+  </main>
 </BaseLayout>
+
+<style>
+  .artist-list {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .artist-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    text-decoration: none;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(39, 39, 42, 0.5);
+    transition: opacity 0.4s ease;
+  }
+
+  .artist-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: clamp(3rem, 10vw, 12rem);
+    line-height: 1;
+    color: #D4D0C8;
+    letter-spacing: -0.02em;
+    transition: opacity 0.4s ease;
+  }
+
+  .artist-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 300;
+    font-size: 11px;
+    color: #71717a;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    margin-left: 2rem;
+  }
+
+  .artist-row:hover .artist-name {
+    opacity: 0.2;
+  }
+
+  .artist-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    filter: grayscale(0.6);
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const backdrop = document.getElementById('artist-backdrop');
+    const rows = document.querySelectorAll('.artist-row');
+    if (!backdrop) return;
+
+    rows.forEach((row) => {
+      row.addEventListener('mouseenter', () => {
+        const photo = row.getAttribute('data-photo');
+        if (photo) {
+          backdrop.style.backgroundImage = `url(${photo})`;
+          backdrop.style.opacity = '0.35';
+        }
+      });
+
+      row.addEventListener('mouseleave', () => {
+        backdrop.style.opacity = '0';
+      });
+
+      row.addEventListener('click', () => {
+        if ((window as any).playClick) (window as any).playClick();
+      });
+    });
+  });
+</script>

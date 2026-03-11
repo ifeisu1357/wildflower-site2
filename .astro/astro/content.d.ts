@@ -170,6 +170,14 @@ declare module 'astro:content' {
   data: InferEntrySchema<"artists">
 } & { render(): Render[".md"] };
 };
+"live": Record<string, {
+  id: string;
+  slug: string;
+  body: string;
+  collection: "live";
+  data: InferEntrySchema<"live">;
+  render(): Render[".md"];
+}>;
 "projects": {
 "shaonian.md": {
 	id: "shaonian.md";

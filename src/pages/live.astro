@@ -1,15 +1,96 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+let events: any[] = [];
+try {
+  events = (await getCollection('live')).sort((a, b) => a.data.order - b.data.order);
+} catch {
+  // Collection may be empty
+}
 ---
 
-<BaseLayout title="演出 — WILDFLOWER野花" description="WILDFLOWER野花 live shows and events">
-  <div class="min-h-screen flex items-center justify-center px-4">
-    <div class="text-center">
-      <a href="/" class="inline-block font-display text-sm text-wf-light/40 hover:text-wf-light/70 transition-colors duration-300 mb-12" data-clickable>
-        ← 返回
-      </a>
-      <h1 class="font-display text-xl md:text-2xl font-bold text-wf-white mb-4">演出</h1>
-      <p class="font-display text-sm tracking-[0.3em] text-wf-light/25">COMING SOON</p>
-    </div>
-  </div>
+<BaseLayout title="LIVE — WILDFLOWER">
+  <main class="min-h-screen flex items-center justify-center px-5 md:px-10">
+    {events.length > 0 ? (
+      <div class="live-list w-full max-w-3xl">
+        {events.map((event) => (
+          <div class="live-row">
+            <span class="live-date">{event.data.date}</span>
+            <span class="live-event">
+              {event.data.event}
+              {event.data.venue && <span class="live-venue"> — {event.data.venue}</span>}
+              {event.data.city && <span class="live-city">, {event.data.city}</span>}
+            </span>
+            {event.data.ticketUrl && (
+              <a href={event.data.ticketUrl} target="_blank" rel="noopener" class="live-ticket">TICKETS</a>
+            )}
+          </div>
+        ))}
+      </div>
+    ) : (
+      <span class="nothing-scheduled">NOTHING SCHEDULED</span>
+    )}
+  </main>
 </BaseLayout>
+
+<style>
+  .live-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .live-row {
+    display: flex;
+    align-items: baseline;
+    gap: 2rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(39, 39, 42, 0.4);
+  }
+
+  .live-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400;
+    font-size: 13px;
+    color: #71717a;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+    min-width: 7rem;
+  }
+
+  .live-event {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 300;
+    font-size: 14px;
+    color: #D4D0C8;
+    flex: 1;
+  }
+
+  .live-venue, .live-city {
+    color: #71717a;
+  }
+
+  .live-ticket {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400;
+    font-size: 10px;
+    color: #D4D0C8;
+    text-decoration: none;
+    letter-spacing: 0.12em;
+    opacity: 0.4;
+    flex-shrink: 0;
+  }
+
+  .live-ticket:hover {
+    opacity: 1;
+  }
+
+  .nothing-scheduled {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 300;
+    font-size: 11px;
+    color: #71717a;
+    letter-spacing: 0.2em;
+  }
+</style>

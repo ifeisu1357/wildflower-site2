@@ -1,57 +1,47 @@
-<!-- Audio Manager: background loop + UI sounds -->
-<audio id="bg-audio" loop preload="auto">
-  <source src="/audio/background.mp3" type="audio/mpeg" />
-</audio>
-<audio id="sfx-click" preload="auto">
-  <source src="/sounds/click.mp3" type="audio/mpeg" />
-</audio>
-<audio id="sfx-blip" preload="auto">
-  <source src="/sounds/blip.mp3" type="audio/mpeg" />
-</audio>
+---
+// Audio Manager: ambient drone on enter, tick on hover, thud on nav
+---
+
+<audio id="bg-audio" src="/audio/background.mp3" loop preload="auto"></audio>
+<audio id="sfx-blip" src="/sounds/blip.mp3" preload="auto"></audio>
+<audio id="sfx-click" src="/sounds/click.mp3" preload="auto"></audio>
 
 <script>
-  // Audio state persists across page navigations
-  (window as any).__wfAudioStarted = (window as any).__wfAudioStarted || false;
-
   document.addEventListener('astro:page-load', () => {
-    const bgAudio = document.getElementById('bg-audio') as HTMLAudioElement;
-    const sfxClick = document.getElementById('sfx-click') as HTMLAudioElement;
-    const sfxBlip = document.getElementById('sfx-blip') as HTMLAudioElement;
+    const bg = document.getElementById('bg-audio') as HTMLAudioElement;
+    const blip = document.getElementById('sfx-blip') as HTMLAudioElement;
+    const click = document.getElementById('sfx-click') as HTMLAudioElement;
 
-    if (bgAudio) {
-      bgAudio.volume = 0.15;
-    }
-    if (sfxClick) sfxClick.volume = 0.08;
-    if (sfxBlip) sfxBlip.volume = 0.06;
+    if (bg) bg.volume = 0.08;
+    if (blip) blip.volume = 0.06;
+    if (click) click.volume = 0.08;
 
-    // Start bg audio after enter click
-    window.addEventListener('wf:enter', () => {
-      if (bgAudio && !(window as any).__wfAudioStarted) {
-        bgAudio.play().catch(() => {});
-        (window as any).__wfAudioStarted = true;
+    // Start bg on enter
+    function startAudio() {
+      if (bg && bg.paused) {
+        bg.play().catch(() => {});
       }
-    });
-
-    // Resume if already started (after page transition)
-    if ((window as any).__wfAudioStarted && bgAudio && bgAudio.paused) {
-      bgAudio.play().catch(() => {});
     }
 
-    // Play click/blip on navigation
-    document.querySelectorAll('a[href]').forEach(link => {
-      link.addEventListener('click', () => {
-        if (sfxClick) {
-          sfxClick.currentTime = 0;
-          sfxClick.play().catch(() => {});
-        }
-      });
-    });
+    // If already entered
+    if (sessionStorage.getItem('wf-entered') === '1') {
+      startAudio();
+    }
 
-    // Expose blip for MRT interactions
+    window.addEventListener('wf:enter', startAudio);
+
+    // Global sound functions
     (window as any).playBlip = () => {
-      if (sfxBlip) {
-        sfxBlip.currentTime = 0;
-        sfxBlip.play().catch(() => {});
+      if (blip) {
+        blip.currentTime = 0;
+        blip.play().catch(() => {});
+      }
+    };
+
+    (window as any).playClick = () => {
+      if (click) {
+        click.currentTime = 0;
+        click.play().catch(() => {});
       }
     };
   });
