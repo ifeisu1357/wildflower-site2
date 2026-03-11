@@ -16,23 +16,26 @@ interface Props {
 
 const { artist } = Astro.props;
 const { Content } = await artist.render();
-const displayName = artist.data.nameEn || artist.data.name;
 const photo = artist.data.photo;
 const links = artist.data.links;
 ---
 
-<BaseLayout title={`${displayName} — WILDFLOWER`}>
-  <!-- Hero -->
+<BaseLayout title={`${artist.data.name} — WILDFLOWER`}>
+  <!-- Hero photo background -->
   {photo && (
     <div class="artist-hero" style={`background-image: url(${photo})`}></div>
   )}
 
   <main class="min-h-screen pt-32 pb-20 px-5 md:px-10 relative z-10">
     <div class="max-w-3xl">
-      <h1 class="artist-title">{displayName}</h1>
-      {artist.data.name !== displayName && (
-        <p class="artist-subtitle">{artist.data.name}</p>
+      <!-- Profile photo -->
+      {photo && (
+        <div class="artist-photo-wrap">
+          <img src={photo} alt={artist.data.name} class="artist-photo" />
+        </div>
       )}
+
+      <h1 class="artist-title">{artist.data.name}</h1>
       <p class="artist-role">{artist.data.tag}</p>
 
       {links && (
@@ -58,8 +61,23 @@ const links = artist.data.links;
     z-index: 1;
     background-size: cover;
     background-position: center;
-    opacity: 0.2;
+    opacity: 0.15;
     filter: grayscale(0.5);
+  }
+
+  .artist-photo-wrap {
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(232, 228, 222, 0.1);
+  }
+
+  .artist-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.3);
   }
 
   .artist-title {
@@ -67,27 +85,19 @@ const links = artist.data.links;
     font-weight: 700;
     font-size: clamp(3rem, 8vw, 8rem);
     line-height: 0.95;
-    color: #D4D0C8;
+    color: #E8E4DE;
     letter-spacing: -0.02em;
-    margin-bottom: 0.5rem;
-  }
-
-  .artist-subtitle {
-    font-family: 'IBM Plex Mono', monospace;
-    font-weight: 300;
-    font-size: clamp(1.2rem, 3vw, 2rem);
-    color: #71717a;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
 
   .artist-role {
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 300;
-    font-size: 11px;
+    font-size: 12px;
     color: #71717a;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
 
   .artist-links {
@@ -100,10 +110,10 @@ const links = artist.data.links;
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 400;
     font-size: 11px;
-    color: #D4D0C8;
+    color: #E8E4DE;
     text-decoration: none;
     letter-spacing: 0.08em;
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   .artist-links a:hover {

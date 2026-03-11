@@ -6,5 +6,3 @@ order: 2
 links:
   instagram: ""
 ---
-
-AAAAAA

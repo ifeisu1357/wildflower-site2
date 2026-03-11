@@ -13,50 +13,63 @@ const projectsWithState = projects.map((project) => {
 ---
 
 <BaseLayout title="PROJECTS — WILDFLOWER">
-  <main class="min-h-screen pt-24 pb-8">
-    <div class="project-grid">
+  <main class="min-h-screen flex items-center justify-center px-5 md:px-10 py-24">
+    <div class="project-list">
       {projectsWithState.map(({ project, isReleased, hasReleaseDate }) => (
-        <div class="project-tile">
-          <img
-            src={project.data.cover}
-            alt={project.data.title}
-            class="project-cover"
-            loading="lazy"
-          />
-          {!isReleased && hasReleaseDate && (
-            <div class="countdown-overlay">
-              <span class="countdown-text" data-target={project.data.releaseDate}></span>
-            </div>
-          )}
-          <div class="hover-overlay">
+        <div class="project-item">
+          <div class="project-tile">
+            <img
+              src={project.data.cover}
+              alt={project.data.title}
+              class="project-cover"
+              loading="lazy"
+            />
+            {!isReleased && hasReleaseDate && (
+              <div class="countdown-badge">
+                <span class="countdown-text" data-target={project.data.releaseDate}></span>
+              </div>
+            )}
+          </div>
+          <div class="project-info">
             <span class="project-title">{project.data.title}</span>
             <span class="project-artist">{project.data.artist}</span>
           </div>
         </div>
       ))}
+
+      <!-- Coming Soon placeholder -->
+      <div class="project-item">
+        <div class="project-tile coming-soon-tile">
+          <span class="coming-soon-text">COMING SOON</span>
+        </div>
+      </div>
     </div>
   </main>
 </BaseLayout>
 
 <style>
-  .project-grid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 0;
+  .project-list {
+    display: flex;
+    gap: 2.5rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 700px;
   }
 
-  @media (min-width: 640px) {
-    .project-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  @media (min-width: 1024px) {
-    .project-grid { grid-template-columns: repeat(3, 1fr); }
+  .project-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
   }
 
   .project-tile {
     position: relative;
-    aspect-ratio: 1;
+    width: 200px;
+    height: 200px;
     overflow: hidden;
+    background: #111113;
   }
 
   .project-cover {
@@ -64,56 +77,68 @@ const projectsWithState = projects.map((project) => {
     height: 100%;
     object-fit: cover;
     display: block;
-  }
-
-  .hover-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(9, 9, 11, 0.88);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     opacity: 0;
-    transition: opacity 0.35s ease;
+    transition: opacity 0.4s ease;
   }
 
-  .project-tile:hover .hover-overlay {
+  .project-tile:hover .project-cover {
     opacity: 1;
+  }
+
+  .project-info {
+    text-align: center;
   }
 
   .project-title {
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 500;
-    font-size: 14px;
-    color: #D4D0C8;
+    font-size: 12px;
+    color: #E8E4DE;
     letter-spacing: 0.05em;
-    margin-bottom: 0.3rem;
+    display: block;
   }
 
   .project-artist {
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 300;
-    font-size: 11px;
+    font-size: 10px;
     color: #71717a;
     letter-spacing: 0.08em;
+    display: block;
+    margin-top: 0.15rem;
   }
 
-  .countdown-overlay {
+  .countdown-badge {
     position: absolute;
-    inset: 0;
-    background: rgba(9, 9, 11, 0.92);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(9, 9, 11, 0.85);
+    padding: 0.4rem;
+    text-align: center;
   }
 
   .countdown-text {
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 400;
-    font-size: 13px;
-    color: #D4D0C8;
+    font-size: 10px;
+    color: #E8E4DE;
     letter-spacing: 0.1em;
+  }
+
+  .coming-soon-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(232, 228, 222, 0.08);
+  }
+
+  .coming-soon-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 300;
+    font-size: 10px;
+    color: #71717a;
+    letter-spacing: 0.2em;
   }
 </style>
 
@@ -127,10 +152,7 @@ const projectsWithState = projects.map((project) => {
         const target = new Date(el.getAttribute('data-target')!).getTime();
         const diff = target - now;
 
-        if (diff <= 0) {
-          el.textContent = 'NOW';
-          return;
-        }
+        if (diff <= 0) { el.textContent = 'NOW'; return; }
 
         const d = Math.floor(diff / 86400000);
         const h = Math.floor((diff % 86400000) / 3600000);

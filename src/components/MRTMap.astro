@@ -1,6 +1,6 @@
 ---
 // MRT Map — Mini Metro × WILDFLOWER
-// 3 colored lines, 5 functional stations, autonomous passenger ecosystem
+// 2 lines (orange + blue), 5 stations, large squares, high contrast
 // Trains: decelerate → dwell 1.2s → accelerate (GSAP MotionPath)
 // Passengers: spawn → queue → board → ride → disembark
 ---
@@ -8,93 +8,85 @@
 <div class="w-full h-screen relative overflow-hidden" id="mrt-container">
   <svg
     id="mrt-svg"
-    viewBox="0 50 1600 900"
+    viewBox="0 0 1200 700"
     class="w-full h-full select-none"
     xmlns="http://www.w3.org/2000/svg"
-    preserveAspectRatio="xMidYMid slice"
+    preserveAspectRatio="xMidYMid meet"
   >
-    <!-- ═══ TRACKS (8px, bold Mini Metro style, clean 45° bends) ═══ -->
+    <!-- ═══ TRACKS (12px, high contrast, simple readable layout) ═══ -->
 
-    <!-- Copper Line: STORE → ARTISTS → PROJECTS (main horizontal trunk with 45° kinks) -->
-    <path id="track-copper"
-      d="M 380,440 L 540,440 L 620,520 L 720,520 L 800,520 L 900,520 L 980,440 L 1220,440"
-      fill="none" stroke="#C27853" stroke-width="8" opacity="0.22"
+    <!-- Orange Line (horizontal): STORE → ARTISTS → PROJECTS (straight with one bend) -->
+    <path id="track-orange"
+      d="M 150,350 L 400,350 L 600,350 L 800,350 L 1050,350"
+      fill="none" stroke="#E8753D" stroke-width="12" opacity="0.45"
       stroke-linecap="round" stroke-linejoin="round"/>
 
-    <!-- Bone Line: STORE → up → SOCIALS → down → PROJECTS (upper arc) -->
-    <path id="track-bone"
-      d="M 380,440 L 440,380 L 520,280 L 660,280 L 800,280 L 940,280 L 1060,380 L 1160,440 L 1220,440"
-      fill="none" stroke="#E8E4DE" stroke-width="8" opacity="0.22"
+    <!-- Blue Line (vertical/diagonal): SOCIALS → ARTISTS → LIVE -->
+    <path id="track-blue"
+      d="M 600,120 L 600,220 L 600,350 L 600,480 L 600,600"
+      fill="none" stroke="#4A90D9" stroke-width="12" opacity="0.45"
       stroke-linecap="round" stroke-linejoin="round"/>
 
-    <!-- Slate Line: ARTISTS → LIVE (vertical drop south) -->
-    <path id="track-slate"
-      d="M 800,520 L 800,600 L 800,720 L 760,790"
-      fill="none" stroke="#6B7B8D" stroke-width="8" opacity="0.22"
-      stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- ═══ STATIONS (28×28 squares, very clickable, high contrast) ═══ -->
 
-    <!-- ═══ STATIONS (18×18 hollow squares, generous hit areas) ═══ -->
-
-    <!-- STORE — Copper ∩ Bone transfer (left) -->
+    <!-- STORE — Orange Line left terminus -->
     <g class="mrt-station" data-station="store" data-href="https://shop.wild-flower.co" data-external="true">
-      <rect class="station-hit" x="362" y="422" width="36" height="36" fill="transparent" stroke="none"/>
-      <rect class="station-square" x="371" y="431" width="18" height="18"
-        fill="#09090b" stroke="#C27853" stroke-width="1.5" opacity="0.3"/>
-      <text class="station-label" x="371" y="421" text-anchor="start"
-        fill="#D4D0C8" font-family="'IBM Plex Mono',monospace" font-size="12" font-weight="500"
-        letter-spacing="0.1em" opacity="0">STORE</text>
+      <rect class="station-hit" x="122" y="322" width="56" height="56" fill="transparent" stroke="none"/>
+      <rect class="station-square" x="136" y="336" width="28" height="28"
+        fill="#09090b" stroke="#E8753D" stroke-width="2.5" opacity="0.55"/>
+      <text class="station-label" x="150" y="326" text-anchor="middle"
+        fill="#E8E4DE" font-family="'IBM Plex Mono',monospace" font-size="14" font-weight="600"
+        letter-spacing="0.12em" opacity="0">STORE</text>
     </g>
 
-    <!-- ARTISTS — Copper ∩ Slate transfer (center) -->
+    <!-- ARTISTS — Orange ∩ Blue transfer (center hub) -->
     <g class="mrt-station" data-station="artists" data-href="/artists">
-      <rect class="station-hit" x="782" y="502" width="36" height="36" fill="transparent" stroke="none"/>
-      <rect class="station-square" x="791" y="511" width="18" height="18"
-        fill="#09090b" stroke="#C27853" stroke-width="1.5" opacity="0.3"/>
-      <text class="station-label" x="791" y="501" text-anchor="start"
-        fill="#D4D0C8" font-family="'IBM Plex Mono',monospace" font-size="12" font-weight="500"
-        letter-spacing="0.1em" opacity="0">ARTISTS</text>
+      <rect class="station-hit" x="572" y="322" width="56" height="56" fill="transparent" stroke="none"/>
+      <rect class="station-square" x="586" y="336" width="28" height="28"
+        fill="#09090b" stroke="#E8E4DE" stroke-width="2.5" opacity="0.55"/>
+      <text class="station-label" x="600" y="326" text-anchor="middle"
+        fill="#E8E4DE" font-family="'IBM Plex Mono',monospace" font-size="14" font-weight="600"
+        letter-spacing="0.12em" opacity="0">ARTISTS</text>
     </g>
 
-    <!-- PROJECTS — Copper ∩ Bone transfer (right) -->
+    <!-- PROJECTS — Orange Line right terminus -->
     <g class="mrt-station" data-station="projects" data-href="/projects">
-      <rect class="station-hit" x="1202" y="422" width="36" height="36" fill="transparent" stroke="none"/>
-      <rect class="station-square" x="1211" y="431" width="18" height="18"
-        fill="#09090b" stroke="#E8E4DE" stroke-width="1.5" opacity="0.3"/>
-      <text class="station-label" x="1211" y="421" text-anchor="start"
-        fill="#D4D0C8" font-family="'IBM Plex Mono',monospace" font-size="12" font-weight="500"
-        letter-spacing="0.1em" opacity="0">PROJECTS</text>
+      <rect class="station-hit" x="1022" y="322" width="56" height="56" fill="transparent" stroke="none"/>
+      <rect class="station-square" x="1036" y="336" width="28" height="28"
+        fill="#09090b" stroke="#E8753D" stroke-width="2.5" opacity="0.55"/>
+      <text class="station-label" x="1050" y="326" text-anchor="middle"
+        fill="#E8E4DE" font-family="'IBM Plex Mono',monospace" font-size="14" font-weight="600"
+        letter-spacing="0.12em" opacity="0">PROJECTS</text>
     </g>
 
-    <!-- SOCIALS — Bone line (top center) -->
+    <!-- SOCIALS — Blue Line top terminus -->
     <g class="mrt-station" data-station="socials" data-href="https://instagram.com/wildflower" data-external="true">
-      <rect class="station-hit" x="782" y="262" width="36" height="36" fill="transparent" stroke="none"/>
-      <rect class="station-square" x="791" y="271" width="18" height="18"
-        fill="#09090b" stroke="#E8E4DE" stroke-width="1.5" opacity="0.3"/>
-      <text class="station-label" x="791" y="261" text-anchor="start"
-        fill="#D4D0C8" font-family="'IBM Plex Mono',monospace" font-size="12" font-weight="500"
-        letter-spacing="0.1em" opacity="0">SOCIALS</text>
+      <rect class="station-hit" x="572" y="92" width="56" height="56" fill="transparent" stroke="none"/>
+      <rect class="station-square" x="586" y="106" width="28" height="28"
+        fill="#09090b" stroke="#4A90D9" stroke-width="2.5" opacity="0.55"/>
+      <text class="station-label" x="600" y="96" text-anchor="middle"
+        fill="#E8E4DE" font-family="'IBM Plex Mono',monospace" font-size="14" font-weight="600"
+        letter-spacing="0.12em" opacity="0">SOCIALS</text>
     </g>
 
-    <!-- LIVE — Slate terminus (bottom) -->
+    <!-- LIVE — Blue Line bottom terminus -->
     <g class="mrt-station" data-station="live" data-href="/live">
-      <rect class="station-hit" x="742" y="772" width="36" height="36" fill="transparent" stroke="none"/>
-      <rect class="station-square" x="751" y="781" width="18" height="18"
-        fill="#09090b" stroke="#6B7B8D" stroke-width="1.5" opacity="0.3"/>
-      <text class="station-label" x="751" y="771" text-anchor="start"
-        fill="#D4D0C8" font-family="'IBM Plex Mono',monospace" font-size="12" font-weight="500"
-        letter-spacing="0.1em" opacity="0">LIVE</text>
+      <rect class="station-hit" x="572" y="572" width="56" height="56" fill="transparent" stroke="none"/>
+      <rect class="station-square" x="586" y="586" width="28" height="28"
+        fill="#09090b" stroke="#4A90D9" stroke-width="2.5" opacity="0.55"/>
+      <text class="station-label" x="600" y="576" text-anchor="middle"
+        fill="#E8E4DE" font-family="'IBM Plex Mono',monospace" font-size="14" font-weight="600"
+        letter-spacing="0.12em" opacity="0">LIVE</text>
     </g>
 
     <!-- ═══ PASSENGER LAYER ═══ -->
     <g id="passenger-layer"></g>
 
-    <!-- ═══ TRAINS (small rounded rects, no glow) ═══ -->
-    <rect id="train-copper" x="-16" y="-5" width="32" height="10" rx="2"
-      fill="#C27853" opacity="0"/>
-    <rect id="train-bone" x="-16" y="-5" width="32" height="10" rx="2"
-      fill="#E8E4DE" opacity="0"/>
-    <rect id="train-slate" x="-14" y="-4" width="28" height="8" rx="2"
-      fill="#6B7B8D" opacity="0"/>
+    <!-- ═══ TRAINS (larger, more visible) ═══ -->
+    <rect id="train-orange" x="-20" y="-6" width="40" height="12" rx="3"
+      fill="#E8753D" opacity="0"/>
+    <rect id="train-blue" x="-18" y="-6" width="36" height="12" rx="3"
+      fill="#4A90D9" opacity="0"/>
   </svg>
 </div>
 
@@ -118,11 +110,11 @@
     }
 
     const stationMap: Record<string, StationData> = {
-      store:    { id: 'store',    x: 380, y: 440, queue: [] },
-      artists:  { id: 'artists',  x: 800, y: 520, queue: [] },
-      projects: { id: 'projects', x: 1220, y: 440, queue: [] },
-      socials:  { id: 'socials',  x: 800, y: 280, queue: [] },
-      live:     { id: 'live',     x: 760, y: 790, queue: [] },
+      store:    { id: 'store',    x: 150, y: 350, queue: [] },
+      artists:  { id: 'artists',  x: 600, y: 350, queue: [] },
+      projects: { id: 'projects', x: 1050, y: 350, queue: [] },
+      socials:  { id: 'socials',  x: 600, y: 120, queue: [] },
+      live:     { id: 'live',     x: 600, y: 600, queue: [] },
     };
 
     const stationIds = Object.keys(stationMap);
@@ -139,12 +131,12 @@
       while (dest === id) dest = stationIds[Math.floor(Math.random() * stationIds.length)];
 
       const circle = document.createElementNS(SVG_NS, 'circle');
-      circle.setAttribute('r', '4');
-      circle.setAttribute('fill', '#D4D0C8');
-      circle.setAttribute('opacity', '0.45');
+      circle.setAttribute('r', '5');
+      circle.setAttribute('fill', '#E8E4DE');
+      circle.setAttribute('opacity', '0.6');
 
       const idx = station.queue.length;
-      const cx = station.x + 22 + idx * 11;
+      const cx = station.x + 28 + idx * 14;
       const cy = station.y;
       circle.setAttribute('cx', String(cx));
       circle.setAttribute('cy', String(cy));
@@ -187,7 +179,7 @@
 
       station.queue.forEach((p, idx) => {
         gsap.to(p.el, {
-          attr: { cx: station.x + 22 + idx * 11 },
+          attr: { cx: station.x + 28 + idx * 14 },
           duration: 0.3,
           ease: 'power2.out',
         });
@@ -215,19 +207,19 @@
 
       for (let i = 0; i < leaving.length; i++) {
         const circle = document.createElementNS(SVG_NS, 'circle');
-        circle.setAttribute('r', '4');
-        circle.setAttribute('fill', '#D4D0C8');
+        circle.setAttribute('r', '5');
+        circle.setAttribute('fill', '#E8E4DE');
         circle.setAttribute('cx', String(station.x));
         circle.setAttribute('cy', String(station.y));
         circle.setAttribute('opacity', '0');
         passengerLayer.appendChild(circle);
 
-        const offsetX = 18 + Math.random() * 35;
-        const offsetY = (Math.random() - 0.5) * 28;
+        const offsetX = 20 + Math.random() * 40;
+        const offsetY = (Math.random() - 0.5) * 30;
 
         gsap.to(circle, {
           attr: { cx: station.x + offsetX, cy: station.y + offsetY },
-          opacity: 0.4,
+          opacity: 0.5,
           duration: 0.35,
           delay: i * 0.12,
           ease: 'power2.out',
@@ -242,11 +234,7 @@
     }
 
     // ═══ TRAIN STATE ═══
-    interface TrainPassenger {
-      dest: string;
-      segments: number;
-    }
-
+    interface TrainPassenger { dest: string; segments: number; }
     interface TrainState {
       el: HTMLElement;
       trackId: string;
@@ -258,10 +246,8 @@
       baseOpacity: number;
     }
 
-    // ═══ TRAIN MOVEMENT ═══
     function advanceTrain(train: TrainState) {
       const next = train.currentStop + train.direction;
-
       if (next < 0 || next >= train.stops.length) {
         train.direction *= -1 as 1 | -1;
         setTimeout(() => advanceTrain(train), 600);
@@ -275,18 +261,14 @@
       gsap.to(train.el, {
         duration,
         motionPath: {
-          path: trackSel,
-          align: trackSel,
-          alignOrigin: [0.5, 0.5],
-          autoRotate: true,
-          start: train.stops[train.currentStop],
-          end: train.stops[next],
+          path: trackSel, align: trackSel,
+          alignOrigin: [0.5, 0.5], autoRotate: true,
+          start: train.stops[train.currentStop], end: train.stops[next],
         },
         ease: 'power2.inOut',
         onComplete: () => {
           train.currentStop = next;
-          const stationId = train.stationIds[next];
-          dwell(train, stationId);
+          dwell(train, train.stationIds[next]);
         },
       });
     }
@@ -302,69 +284,37 @@
       if (!document.querySelector(trackSel)) return;
 
       gsap.set(train.el, {
-        motionPath: {
-          path: trackSel,
-          align: trackSel,
-          alignOrigin: [0.5, 0.5],
-          autoRotate: true,
-          start: 0,
-          end: 0,
-        },
+        motionPath: { path: trackSel, align: trackSel,
+          alignOrigin: [0.5, 0.5], autoRotate: true, start: 0, end: 0 },
       });
-
-      gsap.to(train.el, {
-        opacity: train.baseOpacity,
-        duration: 0.6,
-        delay: startDelay / 1000,
-      });
-
+      gsap.to(train.el, { opacity: train.baseOpacity, duration: 0.6, delay: startDelay / 1000 });
       setTimeout(() => advanceTrain(train), startDelay);
     }
 
     // ═══ CONFIGURE TRAINS ═══
 
-    // Copper Line: STORE → bend → ARTISTS → bend → PROJECTS
-    // Path: 260,440 → 460,440 → 540,520 → 720,520 → 800,520 → 980,520 → 1060,440 → 1340,440
-    const trainCopper: TrainState = {
-      el: document.getElementById('train-copper')!,
-      trackId: 'track-copper',
+    // Orange Line: STORE → ARTISTS → PROJECTS (straight horizontal)
+    const trainOrange: TrainState = {
+      el: document.getElementById('train-orange')!,
+      trackId: 'track-orange',
       passengers: [],
-      stops: [0, 0.16, 0.23, 0.38, 0.44, 0.58, 0.65, 1.0],
-      stationIds: ['store', '', '', '', 'artists', '', '', 'projects'],
-      currentStop: 0,
-      direction: 1,
-      baseOpacity: 0.8,
+      stops: [0, 0.28, 0.50, 0.72, 1.0],
+      stationIds: ['store', '', 'artists', '', 'projects'],
+      currentStop: 0, direction: 1, baseOpacity: 0.9,
     };
 
-    // Bone Line: STORE → up → SOCIALS → down → PROJECTS
-    // Path: 260,440 → 340,360 → 460,240 → 640,240 → 800,240 → 960,240 → 1100,360 → 1260,440 → 1340,440
-    const trainBone: TrainState = {
-      el: document.getElementById('train-bone')!,
-      trackId: 'track-bone',
+    // Blue Line: SOCIALS → ARTISTS → LIVE (straight vertical)
+    const trainBlue: TrainState = {
+      el: document.getElementById('train-blue')!,
+      trackId: 'track-blue',
       passengers: [],
-      stops: [0, 0.08, 0.20, 0.35, 0.50, 0.65, 0.78, 0.92, 1.0],
-      stationIds: ['store', '', '', '', 'socials', '', '', '', 'projects'],
-      currentStop: 0,
-      direction: 1,
-      baseOpacity: 0.8,
+      stops: [0, 0.21, 0.48, 0.75, 1.0],
+      stationIds: ['socials', '', 'artists', '', 'live'],
+      currentStop: 0, direction: 1, baseOpacity: 0.9,
     };
 
-    // Slate Line: ARTISTS → down → LIVE
-    // Path: 800,520 → 800,600 → 800,740 → 760,810
-    const trainSlate: TrainState = {
-      el: document.getElementById('train-slate')!,
-      trackId: 'track-slate',
-      passengers: [],
-      stops: [0, 0.28, 0.76, 1.0],
-      stationIds: ['artists', '', '', 'live'],
-      currentStop: 0,
-      direction: 1,
-      baseOpacity: 0.8,
-    };
-
-    initTrain(trainCopper, 500);
-    initTrain(trainBone, 1800);
-    initTrain(trainSlate, 3200);
+    initTrain(trainOrange, 500);
+    initTrain(trainBlue, 2000);
 
     // ═══ STATION HOVER — typewriter label reveal ═══
     const stationEls = document.querySelectorAll('.mrt-station');
@@ -379,12 +329,7 @@
 
       el.addEventListener('mouseenter', () => {
         if ((window as any).playBlip) (window as any).playBlip();
-
-        hoverTween = gsap.to(square, {
-          opacity: 1,
-          duration: 0.25,
-          ease: 'power2.out',
-        });
+        hoverTween = gsap.to(square, { opacity: 1, duration: 0.2, ease: 'power2.out' });
 
         let charIdx = 0;
         label.textContent = '';
@@ -392,46 +337,31 @@
         typeInterval = setInterval(() => {
           charIdx++;
           label.textContent = fullText.slice(0, charIdx);
-          if (charIdx >= fullText.length && typeInterval) {
-            clearInterval(typeInterval);
-            typeInterval = null;
-          }
+          if (charIdx >= fullText.length && typeInterval) { clearInterval(typeInterval); typeInterval = null; }
         }, 40);
       });
 
       el.addEventListener('mouseleave', () => {
         if (typeInterval) { clearInterval(typeInterval); typeInterval = null; }
         if (hoverTween) hoverTween.kill();
-
-        gsap.to(square, { opacity: 0.3, duration: 0.3, ease: 'power2.in' });
-        gsap.to(label, {
-          opacity: 0,
-          duration: 0.2,
-          ease: 'power2.in',
-          onComplete: () => { label.textContent = fullText; },
-        });
+        gsap.to(square, { opacity: 0.55, duration: 0.3, ease: 'power2.in' });
+        gsap.to(label, { opacity: 0, duration: 0.2, ease: 'power2.in',
+          onComplete: () => { label.textContent = fullText; } });
       });
 
       el.addEventListener('click', () => {
         const href = el.getAttribute('data-href');
         const external = el.getAttribute('data-external');
         if (!href) return;
-
         if ((window as any).playClick) (window as any).playClick();
-
-        if (external === 'true') {
-          window.open(href, '_blank', 'noopener');
-        } else {
-          window.location.href = href;
-        }
+        if (external === 'true') window.open(href, '_blank', 'noopener');
+        else window.location.href = href;
       });
 
       (el as HTMLElement).style.cursor = 'pointer';
     });
 
     // ═══ CLEANUP ═══
-    document.addEventListener('astro:before-swap', () => {
-      clearInterval(spawnInterval);
-    }, { once: true });
+    document.addEventListener('astro:before-swap', () => { clearInterval(spawnInterval); }, { once: true });
   });
 </script>

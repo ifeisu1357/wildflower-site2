@@ -8,20 +8,16 @@ const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b
 <BaseLayout title="ARTISTS — WILDFLOWER">
   <main class="min-h-screen pt-24 pb-16 px-5 md:px-10">
     <div class="artist-list">
-      {artists.map((artist) => {
-        const displayName = artist.data.nameEn || artist.data.name;
-        const photo = artist.data.photo;
-        return (
-          <a
-            href={`/artists/${artist.slug}`}
-            class="artist-row"
-            data-photo={photo || ''}
-          >
-            <span class="artist-name">{displayName}</span>
-            <span class="artist-tag">{artist.data.tag}</span>
-          </a>
-        );
-      })}
+      {artists.map((artist) => (
+        <a
+          href={`/artists/${artist.slug}`}
+          class="artist-row"
+          data-photo={artist.data.photo || ''}
+        >
+          <span class="artist-name">{artist.data.name}</span>
+          <span class="artist-tag">{artist.data.tag}</span>
+        </a>
+      ))}
     </div>
 
     <!-- Fullscreen photo backdrop -->
@@ -35,7 +31,6 @@ const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 0;
   }
 
   .artist-row {
@@ -43,8 +38,8 @@ const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b
     align-items: baseline;
     justify-content: space-between;
     text-decoration: none;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid rgba(39, 39, 42, 0.5);
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(39, 39, 42, 0.4);
     transition: opacity 0.4s ease;
   }
 
@@ -52,8 +47,8 @@ const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 700;
     font-size: clamp(3rem, 10vw, 12rem);
-    line-height: 1;
-    color: #D4D0C8;
+    line-height: 1.05;
+    color: #E8E4DE;
     letter-spacing: -0.02em;
     transition: opacity 0.4s ease;
   }
@@ -70,7 +65,7 @@ const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b
   }
 
   .artist-row:hover .artist-name {
-    opacity: 0.2;
+    opacity: 0.15;
   }
 
   .artist-backdrop {
@@ -82,7 +77,7 @@ const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b
     opacity: 0;
     transition: opacity 0.5s ease;
     pointer-events: none;
-    filter: grayscale(0.6);
+    filter: grayscale(0.5);
   }
 </style>
 
@@ -100,11 +95,7 @@ const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b
           backdrop.style.opacity = '0.35';
         }
       });
-
-      row.addEventListener('mouseleave', () => {
-        backdrop.style.opacity = '0';
-      });
-
+      row.addEventListener('mouseleave', () => { backdrop.style.opacity = '0'; });
       row.addEventListener('click', () => {
         if ((window as any).playClick) (window as any).playClick();
       });

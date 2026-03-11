@@ -1,6 +1,5 @@
 ---
-// Custom Cursor: 4px square dot, mix-blend-mode: exclusion
-// Rotates 45° to diamond on hover
+// Custom Cursor: 8px square, high contrast white, diamond on hover
 ---
 
 <div class="cursor-dot" id="cursor-dot"></div>
@@ -18,21 +17,16 @@
     document.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      dot.style.transform = `translate(${mouseX - 2}px, ${mouseY - 2}px)`;
+      dot.style.transform = `translate(${mouseX - 4}px, ${mouseY - 4}px)`;
     });
 
     const hoverTargets = 'a, button, [data-clickable], .mrt-station';
 
     document.addEventListener('mouseover', (e) => {
-      if ((e.target as Element).closest(hoverTargets)) {
-        dot.classList.add('hovering');
-      }
+      if ((e.target as Element).closest(hoverTargets)) dot.classList.add('hovering');
     });
-
     document.addEventListener('mouseout', (e) => {
-      if ((e.target as Element).closest(hoverTargets)) {
-        dot.classList.remove('hovering');
-      }
+      if ((e.target as Element).closest(hoverTargets)) dot.classList.remove('hovering');
     });
 
     document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; });
