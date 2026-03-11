@@ -20,10 +20,10 @@
 # ═══════════════════════════════════════════════════
 
 - slug: vol1
-  date: "2026-04-18"
-  event: "WILDFLOWER LIVE VOL.1"
-  venue: "Revolver"
-  city: "Taipei"
+  date: "2026-03-11"
+  event: "hello world"
+  venue: ""
+  city: ""
   ticketUrl: ""
   order: 1
 
@@ -34,14 +34,6 @@
   city: "Taipei"
   ticketUrl: ""
   order: 2
-
-- slug: wakeup
-  date: "2026-10-03"
-  event: "Wake Up Festival"
-  venue: "Jiali"
-  city: "Tainan"
-  ticketUrl: ""
-  order: 3
 
 # ─── ADD NEW EVENT BELOW ───
 # - slug: new-event
